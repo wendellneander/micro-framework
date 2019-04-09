@@ -2,14 +2,17 @@
 
 namespace Core;
 
+use ReflectionMethod;
 
 class Router
 {
+    private $url;
     private $routes;
     private $controllerName;
     private $controller;
     private $action;
     private $params;
+    private $request;
 
     /**
      * Router constructor.
@@ -28,9 +31,11 @@ class Router
      */
     private function run()
     {
-        $url = $this->getUrl();
+        $this->request = new Request();
 
-        $this->getRoute($url);
+        $this->url = $this->getUrl();
+
+        $this->getRoute();
 
         $this->setController();
     }
@@ -61,15 +66,31 @@ class Router
 
         $method = $this->action;
 
+        $reflection = new ReflectionMethod("Controllers\\" .$this->controllerName, $method);
+
+        $methodParams = $reflection->getParameters();
+
+        $firstParam = isset($methodParams[0]) && $methodParams[0] ? $methodParams[0] : null;
+
+        if($firstParam && $firstParam->getType() == 'Core\Request') {
+            array_unshift($this->params, $this->getRequest());
+        }
+
         $this->controller->$method(...$this->params);
     }
+
+    private function getRequest() {
+
+        return $this->request;
+
+    }
+
     /**
-     * @param $url
      * @throws \Exception
      */
-    private function getRoute($url)
+    private function getRoute()
     {
-        $urlArray = explode('/', $url);
+        $urlArray = explode('/', $this->url);
 
         $found = false;
 
@@ -96,7 +117,7 @@ class Router
 
             }
 
-            if ($url == $route[0]) {
+            if ($this->url == $route[0]) {
 
                 $found = true;
 

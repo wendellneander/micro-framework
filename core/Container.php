@@ -26,4 +26,5 @@ class Container
 
         return new $controllerClass;
     }
+
 }

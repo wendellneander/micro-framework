@@ -9,6 +9,8 @@
 namespace Controllers;
 
 
+use Core\Request;
+
 class PostController
 {
     public function index()
@@ -16,8 +18,10 @@ class PostController
         echo "Posts ";
     }
 
-    public function show($id)
+    public function show(Request $request, $id)
     {
+        print_r($request->all());
+
         echo "Post ".$id;
     }
 }
