@@ -60,7 +60,7 @@ class Router
     }
 
     /**
-     * @throws \Exception
+     * @throws \ReflectionException
      */
     private function setController()
     {
@@ -138,7 +138,7 @@ class Router
         }
 
         if(!$found){
-            throw new \Exception('Route not found');
+            Container::pageNotFound();
         }
     }
 

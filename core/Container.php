@@ -14,17 +14,27 @@ class Container
     /**
      * @param $controller
      * @return mixed
-     * @throws \Exception
      */
     public static function newController($controller)
     {
         $controllerClass = "Controllers\\" . $controller;
 
         if(!class_exists($controllerClass)){
-            throw new \Exception('Controller not found');
+            exit('Controller not found');
         }
 
         return new $controllerClass;
+    }
+
+    public static function pageNotFound()
+    {
+        if(file_exists(__DIR__ . '/../views/404.php')){
+            require_once __DIR__ . '/../views/404.php';
+
+            exit;
+        }else{
+            exit('Page not found');
+        }
     }
 
 }
