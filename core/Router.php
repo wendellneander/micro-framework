@@ -33,6 +33,8 @@ class Router
     {
         $this->request = new Request();
 
+        $this->params = [];
+
         $this->url = $this->getUrl();
 
         $this->getRoute();
@@ -75,6 +77,8 @@ class Router
         if($firstParam && $firstParam->getType() == 'Core\Request') {
             array_unshift($this->params, $this->getRequest());
         }
+
+        $this->params = $this->params ? $this->params : [];
 
         $this->controller->$method(...$this->params);
     }
@@ -145,7 +149,5 @@ class Router
     {
         return parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
     }
-
-
 
 }

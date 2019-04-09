@@ -8,10 +8,10 @@
 
 namespace Controllers;
 
-
+use Core\BaseController;
 use Core\Request;
 
-class PostController
+class PostController extends BaseController
 {
     public function index()
     {

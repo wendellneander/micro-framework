@@ -8,12 +8,15 @@
 
 namespace Controllers;
 
-class HomeController
-{
+use Core\BaseController;
 
+class HomeController extends BaseController
+{
     public function index()
     {
-        echo "Home";
+        $this->view->name = 'Wendell Neander';
+
+        $this->view('home/index', 'template');
     }
 
 }
