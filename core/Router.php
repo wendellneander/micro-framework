@@ -17,7 +17,7 @@ class Router
     /**
      * Router constructor.
      * @param array $routes
-     * @throws \Exception
+     * @throws \ReflectionException
      */
     public function __construct(array $routes)
     {
@@ -27,7 +27,7 @@ class Router
     }
 
     /**
-     * @throws \Exception
+     * @throws \ReflectionException
      */
     private function run()
     {
@@ -89,9 +89,6 @@ class Router
 
     }
 
-    /**
-     * @throws \Exception
-     */
     private function getRoute()
     {
         $urlArray = explode('/', $this->url);
