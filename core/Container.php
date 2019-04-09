@@ -21,7 +21,7 @@ class Container
         $controllerClass = "Controllers\\" . $controller;
 
         if(!class_exists($controllerClass)){
-            throw new \Exception('Controller não encontrado');
+            throw new \Exception('Controller not found');
         }
 
         return new $controllerClass;

@@ -134,7 +134,7 @@ class Router
         }
 
         if(!$found){
-            throw new \Exception('Rota não encotrada');
+            throw new \Exception('Route not found');
         }
     }
 
