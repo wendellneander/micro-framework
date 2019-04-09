@@ -1,0 +1,19 @@
+{
+  "name": "neander/mirum-framework",
+  "description": "Micro Framework for Mirum Agency",
+  "license": "MIT",
+  "type": "project",
+  "authors": [
+    { "name": "Wendell Neander", "email": "neanderdev@gmail.com" }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Controllers\\": "controllers/",
+      "Repository\\": "repository/",
+      "Core\\": "core"
+    },
+    "require": {
+      "php": ">=5.4"
+    }
+  }
+}
