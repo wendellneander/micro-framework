@@ -10,7 +10,7 @@
     "psr-4": {
       "Controllers\\": "controllers/",
       "Repository\\": "repository/",
-      "Core\\": "core"
+      "Core\\": "core/"
     },
     "require": {
       "php": ">=5.4"
