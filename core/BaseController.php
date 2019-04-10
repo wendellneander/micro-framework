@@ -8,22 +8,12 @@
 
 namespace Core;
 
-abstract class BaseController
+abstract class BaseController extends Application
 {
-    private $viewPath;
-    private $viewData;
-    private $blade;
-
     protected function view($path, $data = null)
     {
-        $this->viewPath = $path;
+        $blade = $this->getBlade();
 
-        $this->viewData = $data;
-
-        $this->blade = Container::blade();
-
-        $viewRendered = $this->blade->render($this->viewPath, $this->viewData);
-
-        echo $viewRendered;
+        $blade->view($path, $data);
     }
 }
