@@ -58,7 +58,7 @@ class Container
      * @return object
      * @throws \ReflectionException
      */
-    private function build($concrete, $parameters)
+    private function build($concrete, $parameters = [])
     {
         $reflector = new ReflectionClass($concrete);
 
@@ -81,7 +81,7 @@ class Container
      * @return array
      * @throws \ReflectionException
      */
-    private function resolveDependencies(array $dependencies, $parameters)
+    private function resolveDependencies(array $dependencies, $parameters = [])
     {
         $results = [];
 
@@ -143,7 +143,7 @@ class Container
      * @param $parameters
      * @return bool
      */
-    private function hasParameterOverride($dependency, $parameters)
+    private function hasParameterOverride($dependency, $parameters = [])
     {
         return array_key_exists(
             $dependency->name, $parameters
@@ -159,8 +159,6 @@ class Container
     {
         return $parameters[$dependency->name];
     }
-
-
 
 
 
