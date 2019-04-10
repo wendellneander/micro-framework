@@ -64,7 +64,7 @@ class Router
      */
     private function setController()
     {
-        $this->controller = Container::newController($this->controllerName);
+        $this->controller = Container::controller($this->controllerName);
 
         $method = $this->action;
 

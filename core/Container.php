@@ -15,7 +15,7 @@ class Container
      * @param $controller
      * @return mixed
      */
-    public static function newController($controller)
+    public static function controller($controller)
     {
         $controllerClass = "Controllers\\" . $controller;
 

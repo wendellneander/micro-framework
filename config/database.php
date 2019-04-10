@@ -2,7 +2,7 @@
 
 return [
 
-    'driver' => 'mysql',
+    'driver' => 'sqlite',
 
     'sqlite' => [
         'host' => ''
