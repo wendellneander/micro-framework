@@ -9,6 +9,8 @@
 namespace Core;
 
 
+use Jenssegers\Blade\Blade;
+
 class Container
 {
     /**
@@ -26,6 +28,16 @@ class Container
         return new $controllerClass;
     }
 
+    public static function blade()
+    {
+        $viewPath = __DIR__ . '/../views';
+
+        $cachePath = __DIR__ . '/../storage/cache/views';
+
+        return new Blade([$viewPath], $cachePath);
+    }
+
+    //TODO remove this
     public static function pageNotFound()
     {
         if(file_exists(__DIR__ . '/../views/404.php')){

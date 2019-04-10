@@ -10,44 +10,20 @@ namespace Core;
 
 abstract class BaseController
 {
-    protected $view;
     private $viewPath;
-    private $templatePath;
+    private $viewData;
+    private $blade;
 
-    public function __construct()
+    protected function view($path, $data = null)
     {
-        $this->view = new \stdClass();
-    }
+        $this->viewPath = $path;
 
-    protected function view($viewPath, $templatePath = null)
-    {
-        $this->viewPath = $viewPath;
+        $this->viewData = $data;
 
-        $this->templatePath = $templatePath;
+        $this->blade = Container::blade();
 
-        if ($templatePath) {
-            $this->template();
-        }else{
-            $this->content();
-        }
+        $viewRendered = $this->blade->render($this->viewPath, $this->viewData);
 
-    }
-
-    protected function content()
-    {
-        if (file_exists(__DIR__ . "/../views/{$this->viewPath}.php")) {
-            require_once __DIR__ . "/../views/{$this->viewPath}.php";
-        } else {
-            exit('View not found');
-        }
-    }
-
-    protected function template()
-    {
-        if (file_exists(__DIR__ . "/../views/{$this->templatePath}.php")) {
-            require_once __DIR__ . "/../views/{$this->templatePath}.php";
-        } else {
-            exit('View not found');
-        }
+        echo $viewRendered;
     }
 }

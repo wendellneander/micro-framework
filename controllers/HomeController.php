@@ -14,9 +14,10 @@ class HomeController extends BaseController
 {
     public function index()
     {
-        $this->view->name = 'Wendell Neander';
-
-        $this->view('home/index', 'template');
+        $this->view('home/index', [
+            'name' => 'Wendell',
+            'age' => 20
+        ]);
     }
 
 }
