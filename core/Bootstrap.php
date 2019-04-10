@@ -4,13 +4,16 @@ namespace Core;
 
 class Bootstrap
 {
-
+    /**
+     * @var Router $router
+     */
     private $router;
 
     /**
-     * @throws \Exception
+     * Bootstrap constructor.
+     * @throws \ReflectionException
      */
-    public function start()
+    public function __construct()
     {
         $this->router();
 
@@ -24,13 +27,12 @@ class Bootstrap
     {
         $routes = require_once __DIR__ . '/../config/routes.php';
 
-        $this->router = new \Core\Router($routes);
+        $this->router = new Router($routes);
     }
 
     private function database()
     {
         //TODO start database connection
     }
-
 }
 
