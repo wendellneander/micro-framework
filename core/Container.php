@@ -49,6 +49,17 @@ class Container
     }
 
     /**
+     * @param $controller
+     * @param array $params
+     * @return mixed
+     * @throws \ReflectionException
+     */
+    public function getController($controller, $params = [])
+    {
+        return $this->make("Controllers\\" . $controller, $params);
+    }
+
+    /**
      * @param $concrete
      * @param $parameters
      * @return object
