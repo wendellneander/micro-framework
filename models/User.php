@@ -1,7 +1,7 @@
 <?php
 namespace Models;
 
-use Illuminate\Database\Eloquent\Model as Model;
+use Illuminate\Database\Eloquent\Model;
 
 class User extends Model
 {
