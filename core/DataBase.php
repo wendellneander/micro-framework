@@ -8,7 +8,6 @@
 
 namespace Core;
 
-use PDO;
 use Illuminate\Database\Capsule\Manager as Capsule;
 
 class DataBase

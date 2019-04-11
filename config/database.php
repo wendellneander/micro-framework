@@ -4,10 +4,6 @@ return [
 
     'driver' => getenv('DB_DRIVER'),
 
-    'sqlite' => [
-        'host' => getenv('DB_HOST'),
-    ],
-
     'mysql' => [
         'host' => getenv('DB_HOST'),
         'database' => getenv('DB_DATABASE'),
