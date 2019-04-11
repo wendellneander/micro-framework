@@ -9,9 +9,15 @@
 namespace Controllers;
 
 use Core\Controller;
+use Repository\GenericRepository;
 
 class WelcomeController extends Controller
 {
+    public function __construct(GenericRepository $generic)
+    {
+
+    }
+
     public function index()
     {
         $this->view('welcome/index');
