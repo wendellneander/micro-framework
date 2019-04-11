@@ -2,6 +2,8 @@
 
 namespace Core;
 
+use Dotenv\Dotenv;
+
 class Bootstrap
 {
     /**
@@ -15,6 +17,8 @@ class Bootstrap
      */
     public function start()
     {
+        $this->dotenv();
+
         $this->router();
 
         $this->database();
@@ -33,6 +37,13 @@ class Bootstrap
     private function database()
     {
         //TODO start database connection
+    }
+
+    private function dotenv()
+    {
+        $dotenv = Dotenv::create(__DIR__);
+
+        $dotenv->load();
     }
 }
 
