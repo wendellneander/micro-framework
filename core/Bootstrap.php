@@ -59,7 +59,7 @@ class Bootstrap
 
     private function templateEngine()
     {
-        \Core\Blade::getInstance();
+        Blade::getInstance();
     }
 }
 

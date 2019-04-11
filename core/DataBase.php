@@ -9,6 +9,7 @@
 namespace Core;
 
 use PDO;
+use Illuminate\Database\Capsule\Manager as Capsule;
 
 class DataBase
 {
@@ -33,9 +34,9 @@ class DataBase
     private $host;
 
     /**
-     * @var $user string
+     * @var $username string
      */
-    private $user;
+    private $username;
 
     /**
      * @var $$password string
@@ -57,14 +58,6 @@ class DataBase
      */
     private $collation;
 
-    /**
-     * @var $pdo PDO
-     */
-    private $pdo;
-
-    const MYSQL_DRIVER = 'mysql';
-    const SQLITE_DRIVER = 'sqlite';
-
     public static function getInstance()
     {
         if (is_null(static::$instance)) {
@@ -76,15 +69,28 @@ class DataBase
         return static::$instance;
     }
 
-    public function getConnection() {
-        return $this->pdo;
-    }
-
     private function run()
     {
         $this->getConfig();
 
-        $this->connect();
+        $this->eloquent();
+    }
+
+    private function eloquent() {
+        $capsule = new Capsule;
+
+        $capsule->addConnection([
+            'driver'    => $this->driver,
+            'host'      => $this->host,
+            'database'  => $this->database,
+            'username'  => $this->username,
+            'password'  => $this->password,
+            'charset'   => $this->charset,
+            'collation' => $this->collation,
+            'prefix'    => ''
+        ]);
+
+        $capsule->bootEloquent();
     }
 
     private function getConfig()
@@ -94,10 +100,11 @@ class DataBase
         $this->driver = $this->config['driver'];
 
         $this->host = isset($this->config[$this->driver]['host']) ? $this->config[$this->driver]['host'] : null;
+        $this->host = $this->host == 'localhost' ? '127.0.0.1' : $this->host;
 
         $this->database = isset($this->config[$this->driver]['database']) ? $this->config[$this->driver]['database'] : null;
 
-        $this->user = isset($this->config[$this->driver]['user']) ? : null;
+        $this->username = isset($this->config[$this->driver]['username']) ? $this->config[$this->driver]['username'] : null;
 
         $this->password = isset($this->config[$this->driver]['password']) ? $this->config[$this->driver]['password'] : null;
 
@@ -105,65 +112,4 @@ class DataBase
 
         $this->collation = isset($this->config[$this->driver]['collation']) ? $this->config[$this->driver]['collation'] : null;
     }
-
-    private function connect()
-    {
-        if($this->pdo){
-            $status = $this->pdo->getAttribute(PDO::ATTR_CONNECTION_STATUS);
-
-            if($status){
-                return;
-            }
-        }
-
-        if(!$this->host){
-            return;
-        }
-
-        switch ($this->driver) {
-            case self::MYSQL_DRIVER :
-
-                $this->mysql();
-
-                break;
-            case self::SQLITE_DRIVER :
-
-                $this->sqlite();
-
-                break;
-        }
-    }
-
-    private function mysql()
-    {
-        try {
-            $this->pdo = new PDO("mysql:host=$this->host;dbname=$this->database;charset=$this->charset", $this->user, $this->password);
-
-            $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-            $this->pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
-
-            $this->pdo->setAttribute(PDO::MYSQL_ATTR_INIT_COMMAND, "SET NAMES '$this->charset' COLLATE '$this->collation'");
-        } catch (\PDOException $exception) {
-            exit($exception->getMessage());
-        }
-    }
-
-    private function sqlite()
-    {
-        $sqlite = __DIR__ . '/../database/' . $this->config['sqlite']['host'];
-        $sqlite .= "sqlite:" . $sqlite;
-
-        try {
-            $this->pdo = new PDO($sqlite);
-
-            $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-            $this->pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
-
-        } catch (\PDOException $exception) {
-            exit($exception->getMessage());
-        }
-    }
-
 }
