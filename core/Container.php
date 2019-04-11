@@ -13,8 +13,14 @@ use ReflectionParameter;
 
 class Container
 {
+    /**
+     * @var $instance self
+     */
     private static $instance;
 
+    /**
+     * @var $aliases array
+     */
     protected $aliases;
 
     /**
