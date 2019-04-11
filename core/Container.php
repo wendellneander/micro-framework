@@ -26,9 +26,9 @@ class Container
     {
         if (is_null(static::$instance)) {
             static::$instance = new static;
-        }
 
-        static::$instance->loadAliases();
+            static::$instance->loadAliases();
+        }
 
         return static::$instance;
     }

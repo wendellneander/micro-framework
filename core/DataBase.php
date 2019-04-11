@@ -12,40 +12,151 @@ use PDO;
 
 class DataBase
 {
+    /**
+     * @var $config array
+     */
+    private $config;
 
-    public function getDataBase()
+    /**
+     * @var $driver string
+     */
+    private $driver;
+
+    /**
+     * @var $host string
+     */
+    private $host;
+
+    /**
+     * @var $user string
+     */
+    private $user;
+
+    /**
+     * @var $$password string
+     */
+    private $password;
+
+    /**
+     * @var $database string
+     */
+    private $database;
+
+    /**
+     * @var $charset string
+     */
+    private $charset;
+
+    /**
+     * @var $collation string
+     */
+    private $collation;
+
+    /**
+     * @var $pdo PDO
+     */
+    private static $pdo;
+
+    /**
+     * @var $instance self
+     */
+    private static $instance;
+
+    const MYSQL_DRIVER = 'mysql';
+    const SQLITE_DRIVER = 'sqlite';
+
+    public static function getInstance()
     {
-        $conf = include_once __DIR__ . '/../config/database.php';
+        if (is_null(static::$instance)) {
+            static::$instance = new static;
 
-        if ($conf['driver'] == 'sqlite') {
-            $sqlite = __DIR__ . '/../database/' . $conf['sqlite']['host'];
-            $sqlite .= "sqlite:" . $sqlite;
+            static::$instance->run();
+        }
 
-            try {
-                $pdo = new PDO($sqlite);
-                $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-                $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
-                return $pdo;
-            } catch (\PDOException $exception) {
-                exit($exception->getMessage());
-            }
-        } else if ($conf['driver'] == 'mysql') {
-            $host = $conf['mysql']['host'];
-            $database = $conf['mysql']['database'];
-            $user = $conf['mysql']['user'];
-            $password = $conf['mysql']['password'];
-            $charset = $conf['mysql']['charset'];
-            $collation = $conf['mysql']['collation'];
+        return static::$instance;
+    }
 
-            try {
-                $pdo = new PDO("mysql:host=$host;dbname=$database;charset=$charset", $user, $password);
-                $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-                $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
-                $pdo->setAttribute(PDO::MYSQL_ATTR_INIT_COMMAND, "SET NAMES '$charset' COLLATE '$collation'");
-                return $pdo;
-            } catch (\PDOException $exception) {
-                exit($exception->getMessage());
-            }
+    public static function getConnection() {
+        return static::$pdo;
+    }
+
+    private function run()
+    {
+        $this->getConfig();
+
+        $this->connect();
+    }
+
+    private function getConfig()
+    {
+        $this->config = include_once __DIR__ . '/../config/database.php';
+
+        $this->driver = $this->config['driver'];
+
+        $this->host = $this->config[$this->driver]['host'];
+
+        $this->database = $this->config[$this->driver]['database'];
+
+        $this->user = $this->config[$this->driver]['user'];
+
+        $this->password = $this->config[$this->driver]['password'];
+
+        $this->charset = $this->config[$this->driver]['charset'];
+
+        $this->collation = $this->config[$this->driver]['collation'];
+    }
+
+    private function connect()
+    {
+        $status = $this->pdo->getAttribute(PDO::ATTR_CONNECTION_STATUS);
+
+        if($status){
+            return;
+        }
+
+        switch ($this->driver) {
+            case self::MYSQL_DRIVER :
+
+                $this->mysql();
+
+                break;
+            case self::SQLITE_DRIVER :
+
+                $this->sqlite();
+
+                break;
+        }
+    }
+
+    private function mysql()
+    {
+        try {
+            $this->pdo = new PDO("mysql:host=$this->host;dbname=$this->database;charset=$this->charset", $this->user, $this->password);
+
+            $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            $this->pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
+
+            $this->pdo->setAttribute(PDO::MYSQL_ATTR_INIT_COMMAND, "SET NAMES '$this->charset' COLLATE '$this->collation'");
+        } catch (\PDOException $exception) {
+            exit($exception->getMessage());
+        }
+    }
+
+    private function sqlite()
+    {
+        $sqlite = __DIR__ . '/../database/' . $this->config['sqlite']['host'];
+        $sqlite .= "sqlite:" . $sqlite;
+
+        try {
+            $this->pdo = new PDO($sqlite);
+
+            $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            $this->pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
+
+        } catch (\PDOException $exception) {
+            exit($exception->getMessage());
         }
     }
 

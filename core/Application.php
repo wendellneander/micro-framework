@@ -30,6 +30,11 @@ class Application extends Container
         $this->templateEngine = new \Jenssegers\Blade\Blade([$viewPath], $cachePath);
     }
 
+    protected function startDataBase()
+    {
+
+    }
+
     protected function view($path, $data = null)
     {
         $view = $this->templateEngine->render($path, $data);
