@@ -30,18 +30,9 @@ class Container
     {
         if (is_null(static::$instance)) {
             static::$instance = new static;
-
-            static::$instance->loadAliases();
         }
 
         return static::$instance;
-    }
-
-    protected function loadAliases()
-    {
-        $aliases = require_once __DIR__ . '/../config/app.php';
-
-        $this->aliases = isset($aliases['aliases']) ? $aliases['aliases'] : [];
     }
 
     /**
@@ -52,11 +43,9 @@ class Container
      */
     public function make($abstract, $parameters = [])
     {
-        $concrete = $this->getAlias($abstract);
-
         $parameters = is_array($parameters) ? $parameters : [];
 
-        return $this->build($concrete, $parameters);
+        return $this->build($abstract, $parameters);
     }
 
     /**
@@ -130,19 +119,6 @@ class Container
     protected function resolveClass(ReflectionParameter $parameter)
     {
         return $this->make($parameter->getClass()->name);
-    }
-
-    /**
-     * @param $abstract
-     * @return mixed
-     */
-    public function getAlias($abstract)
-    {
-        if (!isset($this->aliases[$abstract])) {
-            return $abstract;
-        }
-
-        return $this->getAlias($this->aliases[$abstract]);
     }
 
     /**
