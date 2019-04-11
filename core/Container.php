@@ -15,7 +15,7 @@ class Container
 {
     private static $instance;
 
-    private $aliases;
+    protected $aliases;
 
     /**
      * Set the globally available instance of the container.
@@ -33,7 +33,8 @@ class Container
         return static::$instance;
     }
 
-    private function loadAliases() {
+    protected function loadAliases()
+    {
         $aliases = require_once __DIR__ . '/../config/app.php';
 
         $this->aliases = isset($aliases['aliases']) ? $aliases['aliases'] : [];
@@ -60,7 +61,7 @@ class Container
      * @return object
      * @throws \ReflectionException
      */
-    private function build($concrete, $parameters = [])
+    protected function build($concrete, $parameters = [])
     {
         $reflector = new ReflectionClass($concrete);
 
@@ -83,7 +84,7 @@ class Container
      * @return array
      * @throws \ReflectionException
      */
-    private function resolveDependencies(array $dependencies, $parameters = [])
+    protected function resolveDependencies(array $dependencies, $parameters = [])
     {
         $results = [];
 
@@ -108,7 +109,7 @@ class Container
      * @return mixed
      * @throws \ReflectionException
      */
-    private function resolvePrimitive(ReflectionParameter $parameter)
+    protected function resolvePrimitive(ReflectionParameter $parameter)
     {
         if ($parameter->isDefaultValueAvailable()) {
             return $parameter->getDefaultValue();
@@ -122,7 +123,7 @@ class Container
      * @return mixed
      * @throws \ReflectionException
      */
-    private function resolveClass(ReflectionParameter $parameter)
+    protected function resolveClass(ReflectionParameter $parameter)
     {
         return $this->make($parameter->getClass()->name);
     }
@@ -145,7 +146,7 @@ class Container
      * @param $parameters
      * @return bool
      */
-    private function hasParameterOverride($dependency, $parameters = [])
+    protected function hasParameterOverride($dependency, $parameters = [])
     {
         return array_key_exists($dependency->name, $parameters);
     }
@@ -155,21 +156,8 @@ class Container
      * @param $parameters
      * @return mixed
      */
-    private function getParameterOverride($dependency, $parameters)
+    protected function getParameterOverride($dependency, $parameters)
     {
         return $parameters[$dependency->name];
-    }
-
-
-    //TODO remove this
-    public static function pageNotFound()
-    {
-        if (file_exists(__DIR__ . '/../views/404.php')) {
-            require_once __DIR__ . '/../views/404.php';
-
-            exit;
-        } else {
-            exit('Page not found');
-        }
     }
 }

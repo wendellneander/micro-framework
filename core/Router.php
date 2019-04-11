@@ -126,7 +126,7 @@ class Router
 
                 $this->action = $route[2];
 
-                $this->params = $params;
+                $this->params = is_array($params) ? $params : [];
 
                 break;
 
@@ -135,13 +135,10 @@ class Router
         }
 
         if(!$found){
-            Container::pageNotFound();
+            Application::pageNotFound();
         }
     }
 
-    /**
-     * @return mixed
-     */
     private function getUrl()
     {
         return parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);

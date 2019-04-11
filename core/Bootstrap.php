@@ -13,7 +13,7 @@ class Bootstrap
      * Bootstrap constructor.
      * @throws \ReflectionException
      */
-    public function __construct()
+    public function start()
     {
         $this->router();
 
