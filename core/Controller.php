@@ -8,7 +8,7 @@
 
 namespace Core;
 
-abstract class BaseController
+abstract class Controller
 {
     protected function view(string $path, array $params = [])
     {
