@@ -6,36 +6,69 @@ use ReflectionMethod;
 
 class Router
 {
-    private $url;
-    private $routes;
-    private $controllerName;
-    private $controller;
-    private $action;
-    private $params;
-    private $request;
+    /**
+     * @var $instance self
+     */
+    private static $instance;
 
     /**
-     * Router constructor.
-     * @param array $routes
+     * @var $url string
+     */
+    private $url;
+
+    /**
+     * @var $routes array
+     */
+    private $routes;
+
+    /**
+     * @var $controllerName string
+     */
+    private $controllerName;
+
+    /**
+     * @var $controller string
+     */
+    private $controller;
+
+    /**
+     * @var $action string
+     */
+    private $action;
+
+    /**
+     * @var $params array
+     */
+    private $params;
+
+    /**
+     * @return Router
      * @throws \ReflectionException
      */
-    public function __construct(array $routes)
+    public static function getInstance()
     {
-        $this->setRoutes($routes);
+        if (is_null(static::$instance)) {
+            static::$instance = new static;
 
-        $this->run();
+            $routes = require_once __DIR__ . '/../config/routes.php';
+
+            static::$instance->run($routes);
+        }
+
+        return static::$instance;
     }
 
     /**
+     * @param array $routes
      * @throws \ReflectionException
      */
-    private function run()
+    private function run(array $routes)
     {
-        $this->request = new Request();
-
         $this->params = [];
 
         $this->url = $this->getUrl();
+
+        $this->setRoutes($routes);
 
         $this->getRoute();
 
@@ -64,7 +97,10 @@ class Router
      */
     private function setController()
     {
-        $this->controller = Container::getInstance()->make("Controllers\\" . $this->controllerName, $this->params);
+        $this->controller = Container::getInstance()->make(
+            "Controllers\\" . $this->controllerName,
+            $this->params
+        );
 
         $method = $this->action;
 
@@ -75,18 +111,12 @@ class Router
         $firstParam = isset($methodParams[0]) && $methodParams[0] ? $methodParams[0] : null;
 
         if($firstParam && $firstParam->getType() == 'Core\Request') {
-            array_unshift($this->params, $this->getRequest());
+            array_unshift($this->params, Request::getInstance());
         }
 
         $this->params = $this->params ? $this->params : [];
 
         $this->controller->$method(...$this->params);
-    }
-
-    private function getRequest() {
-
-        return $this->request;
-
     }
 
     private function getRoute()

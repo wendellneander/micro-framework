@@ -11,29 +11,51 @@ namespace Core;
 
 class Request
 {
+    /**
+     * @var $instance self
+     */
+    private static $instance;
+
+    /**
+     * @var $get array
+     */
     private $get;
+
+    /**
+     * @var $post array
+     */
     private $post;
+
+    /**
+     * @var $all array
+     */
     private $all;
 
-    public function __construct()
+    /**
+     * @return Request
+     */
+    public static function getInstance()
     {
-        $this->get = new \stdClass();
-        $this->post = new \stdClass();
-        $this->all = new \stdClass();
+        if (is_null(static::$instance)) {
+            static::$instance = new static;
 
-        foreach ($_GET as $key => $value){
-            $this->get->$key = $value;
-            $this->all->$key = $value;
+            static::$instance->start();
         }
 
-        foreach ($_POST as $key => $value){
-            $this->post->$key = $value;
-            $this->all->$key = $value;
-        }
+        return static::$instance;
+    }
+
+    private function start()
+    {
+        $this->get = $_GET;
+
+        $this->post = $_POST;
+
+        $this->all = array_merge($_GET, $_POST);
     }
 
     /**
-     * @return \stdClass
+     * @return array
      */
     public function get()
     {
@@ -41,7 +63,7 @@ class Request
     }
 
     /**
-     * @return \stdClass
+     * @return array
      */
     public function post()
     {
@@ -49,12 +71,11 @@ class Request
     }
 
     /**
-     * @return \stdClass
+     * @return array
      */
     public function all()
     {
         return $this->all;
     }
-
 
 }

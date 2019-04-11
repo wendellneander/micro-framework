@@ -3,23 +3,31 @@
 namespace Core;
 
 use Dotenv\Dotenv;
-use Jenssegers\Blade\Blade;
 
 class Bootstrap
 {
+    /**
+     * @var $instance self
+     */
+    private static $instance;
 
     /**
-     * @var Application $app
+     * @return Bootstrap
      */
-    private $app;
+    public static function getInstance()
+    {
+        if (is_null(static::$instance)) {
+            static::$instance = new static;
+        }
+
+        return static::$instance;
+    }
 
     /**
      * @throws \ReflectionException
      */
     public function start()
     {
-        $this->app();
-
         $this->dotenv();
 
         $this->database();
@@ -34,14 +42,12 @@ class Bootstrap
      */
     private function router()
     {
-        $routes = require_once __DIR__ . '/../config/routes.php';
-
-        $this->app->setRouter(new Router($routes));
+        Router::getInstance();
     }
 
     private function database()
     {
-        $this->app->setDatabase(DataBase::getInstance());
+        DataBase::getInstance();
     }
 
     private function dotenv()
@@ -53,16 +59,7 @@ class Bootstrap
 
     private function templateEngine()
     {
-        $viewPath = __DIR__ . '/../views';
-
-        $cachePath = __DIR__ . '/../storage/cache/views';
-
-        $this->app->setTemplateEngine(new Blade([$viewPath], $cachePath));
-    }
-
-    private function app()
-    {
-        $this->app = new Application();
+        \Core\Blade::getInstance();
     }
 }
 

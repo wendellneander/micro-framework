@@ -24,9 +24,7 @@ class Container
     protected $aliases;
 
     /**
-     * Set the globally available instance of the container.
-     *
-     * @return static
+     * @return Container
      */
     public static function getInstance()
     {

@@ -13,6 +13,11 @@ use PDO;
 class DataBase
 {
     /**
+     * @var $instance self
+     */
+    private static $instance;
+
+    /**
      * @var $config array
      */
     private $config;
@@ -56,11 +61,6 @@ class DataBase
      * @var $pdo PDO
      */
     private $pdo;
-
-    /**
-     * @var $instance self
-     */
-    private static $instance;
 
     const MYSQL_DRIVER = 'mysql';
     const SQLITE_DRIVER = 'sqlite';
