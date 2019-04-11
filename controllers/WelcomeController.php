@@ -10,11 +10,11 @@ namespace Controllers;
 
 use Core\Controller;
 
-class HomeController extends Controller
+class WelcomeController extends Controller
 {
     public function index()
     {
-        $this->view('home/index');
+        $this->view('welcome/index');
     }
 
 }

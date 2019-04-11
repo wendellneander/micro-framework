@@ -45,4 +45,4 @@
     </div>
 </body>
 </html>
-<?php /**PATH /Users/devmaker/Documents/Meus Projetos/mirum-framework/views/home/index.blade.php ENDPATH**/ ?>
+<?php /**PATH /Users/devmaker/Documents/Meus Projetos/mirum-framework/views/welcome/index.blade.php ENDPATH**/ ?>

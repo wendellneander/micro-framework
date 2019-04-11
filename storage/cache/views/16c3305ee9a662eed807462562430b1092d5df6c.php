@@ -4,4 +4,4 @@
 <?php if(isset($birthday)): ?>
     <h3><?php echo e($birthday); ?></h3>
 <?php endif; ?>
-<?php /**PATH C:\dev\php\mirum-framework\views/home/index.blade.php ENDPATH**/ ?>
+<?php /**PATH C:\dev\php\mirum-framework\views/welcome/index.blade.php ENDPATH**/ ?>
