@@ -8,35 +8,27 @@
 
 namespace Core;
 
-
 class Application extends Container
 {
     /**
-     * @var \Jenssegers\Blade\Blade $engine
+     * @var Router $router
+     */
+    private $router;
+
+    /**
+     * @var DataBase $database
+     */
+    private $database;
+
+    /**
+     * @var \Jenssegers\Blade\Blade $templateEngine
      */
     private $templateEngine;
 
-    private $database;
-
-    public function __construct()
-    {
-        $this->startTemplateEngine();
-    }
-
-    private function startTemplateEngine()
-    {
-        $viewPath = __DIR__ . '/../views';
-
-        $cachePath = __DIR__ . '/../storage/cache/views';
-
-        $this->templateEngine = new \Jenssegers\Blade\Blade([$viewPath], $cachePath);
-    }
-
-    protected function startDataBase()
-    {
-        $this->database = DataBase::getInstance();
-    }
-
+    /**
+     * @param $path
+     * @param null $data
+     */
     protected function view($path, $data = null)
     {
         $view = $this->templateEngine->render($path, $data);
@@ -44,8 +36,51 @@ class Application extends Container
         echo $view;
     }
 
-    public static function pageNotFound()
+    /**
+     * @return Router
+     */
+    public function getRouter()
     {
-        exit('Page not found');
+        return $this->router;
+    }
+
+    /**
+     * @param Router $router
+     */
+    public function setRouter($router)
+    {
+        $this->router = $router;
+    }
+
+    /**
+     * @return DataBase
+     */
+    public function getDatabase()
+    {
+        return $this->database;
+    }
+
+    /**
+     * @param DataBase $database
+     */
+    public function setDatabase($database)
+    {
+        $this->database = $database;
+    }
+
+    /**
+     * @return \Jenssegers\Blade\Blade
+     */
+    public function getTemplateEngine()
+    {
+        return $this->templateEngine;
+    }
+
+    /**
+     * @param \Jenssegers\Blade\Blade $templateEngine
+     */
+    public function setTemplateEngine($templateEngine)
+    {
+        $this->templateEngine = $templateEngine;
     }
 }

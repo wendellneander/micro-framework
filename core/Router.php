@@ -135,7 +135,7 @@ class Router
         }
 
         if(!$found){
-            Application::pageNotFound();
+            exit('Page not found');
         }
     }
 

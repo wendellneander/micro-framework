@@ -93,24 +93,30 @@ class DataBase
 
         $this->driver = $this->config['driver'];
 
-        $this->host = $this->config[$this->driver]['host'];
+        $this->host = isset($this->config[$this->driver]['host']) ? $this->config[$this->driver]['host'] : null;
 
-        $this->database = $this->config[$this->driver]['database'];
+        $this->database = isset($this->config[$this->driver]['database']) ? $this->config[$this->driver]['database'] : null;
 
-        $this->user = $this->config[$this->driver]['user'];
+        $this->user = isset($this->config[$this->driver]['user']) ? : null;
 
-        $this->password = $this->config[$this->driver]['password'];
+        $this->password = isset($this->config[$this->driver]['password']) ? $this->config[$this->driver]['password'] : null;
 
-        $this->charset = $this->config[$this->driver]['charset'];
+        $this->charset = isset($this->config[$this->driver]['charset']) ? $this->config[$this->driver]['charset'] : null;
 
-        $this->collation = $this->config[$this->driver]['collation'];
+        $this->collation = isset($this->config[$this->driver]['collation']) ? $this->config[$this->driver]['collation'] : null;
     }
 
     private function connect()
     {
-        $status = $this->pdo->getAttribute(PDO::ATTR_CONNECTION_STATUS);
+        if($this->pdo){
+            $status = $this->pdo->getAttribute(PDO::ATTR_CONNECTION_STATUS);
 
-        if($status){
+            if($status){
+                return;
+            }
+        }
+
+        if(!$this->host){
             return;
         }
 
