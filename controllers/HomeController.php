@@ -8,9 +8,9 @@
 
 namespace Controllers;
 
-use Core\BaseController;
+use Core\Controller;
 
-class HomeController extends BaseController
+class HomeController extends Controller
 {
     public function index()
     {
