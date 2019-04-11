@@ -49,6 +49,8 @@ class Container
     {
         $concrete = $this->getAlias($abstract);
 
+        $parameters = is_array($parameters) ? $parameters : [];
+
         return $this->build($concrete, $parameters);
     }
 
@@ -112,7 +114,7 @@ class Container
             return $parameter->getDefaultValue();
         }
 
-        exit('Unresolvable dependency: ' . $parameter . 'in class' . $parameter->getDeclaringClass()->getName());
+        exit('Unresolvable dependency: ' . $parameter . ' in class' . $parameter->getDeclaringClass()->getName());
     }
 
     /**
@@ -145,9 +147,7 @@ class Container
      */
     private function hasParameterOverride($dependency, $parameters = [])
     {
-        return array_key_exists(
-            $dependency->name, $parameters
-        );
+        return array_key_exists($dependency->name, $parameters);
     }
 
     /**
@@ -160,24 +160,6 @@ class Container
         return $parameters[$dependency->name];
     }
 
-
-
-
-
-    /**
-     * @param $controller
-     * @return mixed
-     */
-    public static function controller($controller)
-    {
-        $controllerClass = "Controllers\\" . $controller;
-
-        if (!class_exists($controllerClass)) {
-            exit('Controller not found');
-        }
-
-        return new $controllerClass;
-    }
 
     //TODO remove this
     public static function pageNotFound()

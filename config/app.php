@@ -3,7 +3,7 @@
 return [
 
     'aliases' => [
-        'Request' => \Core\Request::class
+        // Some class here
     ]
 
 ];
