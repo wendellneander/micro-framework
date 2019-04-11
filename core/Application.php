@@ -16,6 +16,8 @@ class Application extends Container
      */
     private $templateEngine;
 
+    private $database;
+
     public function __construct()
     {
         $this->startTemplateEngine();
@@ -32,7 +34,7 @@ class Application extends Container
 
     protected function startDataBase()
     {
-
+        $this->database = DataBase::getInstance();
     }
 
     protected function view($path, $data = null)

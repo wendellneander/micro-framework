@@ -55,7 +55,7 @@ class DataBase
     /**
      * @var $pdo PDO
      */
-    private static $pdo;
+    private $pdo;
 
     /**
      * @var $instance self
@@ -76,8 +76,8 @@ class DataBase
         return static::$instance;
     }
 
-    public static function getConnection() {
-        return static::$pdo;
+    public function getConnection() {
+        return $this->pdo;
     }
 
     private function run()
