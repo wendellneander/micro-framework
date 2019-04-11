@@ -9,16 +9,12 @@
 namespace Controllers;
 
 use Core\BaseController;
-use Core\Request;
 
 class HomeController extends BaseController
 {
-    public function index(Request $request)
+    public function index()
     {
-        $this->view('home/index', [
-            'name' => 'Wendell',
-            'age' => 20
-        ]);
+        $this->view('home/index');
     }
 
 }
