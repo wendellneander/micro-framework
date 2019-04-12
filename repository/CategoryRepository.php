@@ -2,6 +2,7 @@
 
 namespace Repository;
 
+use Core\Repository;
 use Models\Category;
 
 class CategoryRepository extends Repository

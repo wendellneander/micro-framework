@@ -11,6 +11,7 @@
       "Controllers\\": "controllers/",
       "Models\\": "models/",
       "Repository\\": "repository/",
+      "Interfaces\\": "interfaces/",
       "Core\\": "core/"
     },
     "require": {

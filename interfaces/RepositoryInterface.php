@@ -1,13 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: devmaker
- * Date: 2019-04-11
- * Time: 17:13
- */
 
-namespace Repository;
-
+namespace Interfaces;
 
 interface RepositoryInterface
 {
