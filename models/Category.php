@@ -3,7 +3,7 @@ namespace Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Generic extends Model
+class Category extends Model
 {
     /**
      * If set to true the table must contain the columns created_at and updated_at
@@ -17,12 +17,19 @@ class Generic extends Model
      *
      * @var string
      */
-    protected $table = 'generics';
+    protected $table = 'categories';
 
     /**
      * Table columns
      *
      * @var array
      */
-    protected $fillable = [];
+    protected $fillable = [
+        'name'
+    ];
+
+    public function products()
+    {
+        return $this->hasMany(Product::class);
+    }
 }
