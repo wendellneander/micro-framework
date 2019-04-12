@@ -2,8 +2,6 @@
 
 namespace Core;
 
-use Dotenv\Dotenv;
-
 class Bootstrap
 {
     /**
@@ -28,8 +26,6 @@ class Bootstrap
      */
     public function start()
     {
-        $this->dotenv();
-
         $this->database();
 
         $this->templateEngine();
@@ -48,13 +44,6 @@ class Bootstrap
     private function database()
     {
         DataBase::getInstance()->run();
-    }
-
-    private function dotenv()
-    {
-        $dotenv = Dotenv::create(__DIR__ . '/..');
-
-        $dotenv->load();
     }
 
     private function templateEngine()
