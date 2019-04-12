@@ -43,43 +43,44 @@ class Router
 
     /**
      * @return Router
-     * @throws \ReflectionException
      */
     public static function getInstance()
     {
         if (is_null(static::$instance)) {
             static::$instance = new static;
-
-            $routes = require_once __DIR__ . '/../config/routes.php';
-
-            static::$instance->run($routes);
         }
 
         return static::$instance;
     }
 
     /**
-     * @param array $routes
      * @throws \ReflectionException
      */
-    private function run(array $routes)
+    public function run()
     {
         $this->params = [];
 
         $this->url = $this->getUrl();
 
-        $this->setRoutes($routes);
+        $this->setRoutes();
 
         $this->getRoute();
 
         $this->setController();
     }
 
-    private function setRoutes(array $routes)
+    public function route(string $path, string $controller)
+    {
+        $this->routes[] = [$path, $controller];
+
+        return $this;
+    }
+
+    private function setRoutes()
     {
         $newRoutes = [];
 
-        foreach ($routes as $route) {
+        foreach ($this->routes as $route) {
 
             $routeArray = explode('@', $route[1]);
 

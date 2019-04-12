@@ -57,58 +57,98 @@ class DataBase
      */
     private $collation;
 
+    /**
+     * @var $currentConfig array
+     */
+    private $currentConfig;
+
+    /**
+     * @var $configKeys array
+     */
+    private $configKeys;
+
+    /**
+     * @return DataBase
+     */
     public static function getInstance()
     {
         if (is_null(static::$instance)) {
             static::$instance = new static;
 
-            static::$instance->run();
+            static::$instance->setConfigKeys();
         }
 
         return static::$instance;
     }
 
-    private function run()
+    public function run()
     {
-        $this->getConfig();
-
         $this->eloquent();
     }
 
-    private function eloquent() {
+    /**
+     * @param string $key
+     * @param array $config
+     * @return $this
+     */
+    public function addConfig(string $key, array $config)
+    {
+        $this->config[$key] = $config;
+
+        return $this;
+    }
+
+    /**
+     * @param string $key
+     * @return $this
+     */
+    public function setCurrentConfig(string $key)
+    {
+        $this->currentConfig = isset($this->config[$key]) ? $this->config[$key] : [];
+
+        foreach ($this->currentConfig as $key => $value) {
+            if (!in_array($key, $this->configKeys)){
+                continue;
+            }
+
+            $this->$key = $value;
+        }
+
+        return $this;
+    }
+
+    private function setConfigKeys()
+    {
+        $this->configKeys = [
+            'driver',
+            'host',
+            'database',
+            'username',
+            'password',
+            'charset',
+            'collation',
+            'prefix'
+        ];
+    }
+
+    /**
+     * Start eloquent ORM
+     */
+    private function eloquent()
+    {
         $capsule = new Capsule;
 
         $capsule->addConnection([
-            'driver'    => $this->driver,
-            'host'      => $this->host,
-            'database'  => $this->database,
-            'username'  => $this->username,
-            'password'  => $this->password,
-            'charset'   => $this->charset,
+            'driver' => $this->driver,
+            'host' => $this->host,
+            'database' => $this->database,
+            'username' => $this->username,
+            'password' => $this->password,
+            'charset' => $this->charset,
             'collation' => $this->collation,
-            'prefix'    => ''
+            'prefix' => ''
         ]);
 
         $capsule->bootEloquent();
-    }
-
-    private function getConfig()
-    {
-        $this->config = include_once __DIR__ . '/../config/database.php';
-
-        $this->driver = $this->config['driver'];
-
-        $this->host = isset($this->config[$this->driver]['host']) ? $this->config[$this->driver]['host'] : null;
-        $this->host = $this->host == 'localhost' ? '127.0.0.1' : $this->host;
-
-        $this->database = isset($this->config[$this->driver]['database']) ? $this->config[$this->driver]['database'] : null;
-
-        $this->username = isset($this->config[$this->driver]['username']) ? $this->config[$this->driver]['username'] : null;
-
-        $this->password = isset($this->config[$this->driver]['password']) ? $this->config[$this->driver]['password'] : null;
-
-        $this->charset = isset($this->config[$this->driver]['charset']) ? $this->config[$this->driver]['charset'] : null;
-
-        $this->collation = isset($this->config[$this->driver]['collation']) ? $this->config[$this->driver]['collation'] : null;
     }
 }

@@ -42,12 +42,12 @@ class Bootstrap
      */
     private function router()
     {
-        Router::getInstance();
+        Router::getInstance()->run();
     }
 
     private function database()
     {
-        DataBase::getInstance();
+        DataBase::getInstance()->run();
     }
 
     private function dotenv()

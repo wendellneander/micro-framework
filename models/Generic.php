@@ -17,7 +17,7 @@ class Generic extends Model
      *
      * @var string
      */
-    protected $table = 'users';
+    protected $table = 'generics';
 
     /**
      * Table columns
