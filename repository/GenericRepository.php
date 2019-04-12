@@ -2,10 +2,11 @@
 
 namespace Repository;
 
+use Core\Repository;
 use Illuminate\Database\Eloquent\Model;
 use Models\Generic;
 
-class GenericRepository implements RepositoryInterface
+class GenericRepository extends Repository
 {
     /**
      * @var Model $model
@@ -14,50 +15,6 @@ class GenericRepository implements RepositoryInterface
 
     public function __construct(Generic $model)
     {
-        $this->model = $model;
-    }
-
-    public function all()
-    {
-        return $this->model->all();
-    }
-
-    public function create(array $data)
-    {
-        return $this->model->query()->create($data);
-    }
-
-    public function update(array $data, $id)
-    {
-        $record = $this->model->query()->find($id);
-
-        return $record->update($data);
-    }
-
-    public function delete($id)
-    {
-        return $this->model->destroy($id);
-    }
-
-    public function show($id)
-    {
-        return $this->model->query()->findOrFail($id);
-    }
-
-    public function getModel()
-    {
-        return $this->model;
-    }
-
-    public function setModel($model)
-    {
-        $this->model = $model;
-
-        return $this;
-    }
-
-    public function with($relations)
-    {
-        return $this->model->with($relations);
+        parent::__construct($model);
     }
 }

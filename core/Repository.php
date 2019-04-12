@@ -1,10 +1,11 @@
 <?php
 
-namespace Repository;
+namespace Core;
 
 use Illuminate\Database\Eloquent\Model;
+use Interfaces\RepositoryInterface;
 
-class Repository implements RepositoryInterface
+abstract class Repository implements RepositoryInterface
 {
     /**
      * @var Model $model
