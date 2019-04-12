@@ -78,4 +78,12 @@ class Request
         return $this->all;
     }
 
+    /**
+     * @param string $route
+     */
+    public static function redirect(string $route)
+    {
+        header('location: '.$route);
+    }
+
 }
