@@ -20,7 +20,31 @@
 
             <button type="submit" class="btn btn-primary mb-2">Save</button>
 
+            @if($store)
+                <button type="button" class="btn btn-danger mb-2" data-toggle="modal" data-target="#delete-modal">delete</button>
+            @endif
+
         </form>
 
     </div>
+
+    @if($store)
+        <div class="modal fade" id="delete-modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="modalLabel">Delete Item</h4>
+                    </div>
+                    <div class="modal-body">
+                        Do you really want to delete this item?
+                    </div>
+                    <div class="modal-footer">
+                        <a type="button" class="btn btn-primary" href="/delete/{{ $store->getKey() }}">Yes</a>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
+
 @endsection

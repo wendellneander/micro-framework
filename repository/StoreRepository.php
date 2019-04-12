@@ -17,7 +17,7 @@ class StoreRepository extends Repository
         parent::__construct($model);
     }
 
-    public function searchByName(string $name)
+    public function searchByName($name)
     {
         if(!$name){
             return $this->all();
