@@ -1,16 +1,17 @@
-@extends('template', ['title' => 'Stores'])
+@extends('template', ['title' => 'Products'])
 
 @section('content')
 
     <div class="pt-5">
 
-        <h1 class="pb-2">Stores</h1>
+        <h1 class="pb-2">Products</h1>
 
         <div class="row">
             <div class="col-8">
                 <div class="btn-group" role="group">
-                    <a type="button" class="btn btn-success" href="/new">New</a>
-                    <a type="button" class="btn btn-primary" href="/product">See Products</a>
+                    <a type="button" class="btn btn-success" href="/product/new">New</a>
+                    <button type="button" class="btn btn-secondary">Import</button>
+                    <a type="button" class="btn btn-primary" href="/">See Stores</a>
                 </div>
             </div>
             <div class="col-4">
@@ -33,16 +34,16 @@
                 </tr>
             </thead>
             <tbody>
-                @if(count($stores) > 0)
+                @if(count($products) > 0)
 
-                    @foreach($stores as $store)
+                    @foreach($products as $product)
                     <tr>
-                        <td>{{ $store->getKey() }}</td>
-                        <td>{{ $store->name }}</td>
-                        <td>{{ $store->address }}</td>
+                        <td>{{ $product->getKey() }}</td>
+                        <td>{{ $product->name }}</td>
+                        <td>${{ number_format($product->price, 2, '.', ',') }}</td>
                         <td class="actions">
-                            <a class="btn btn-success btn-xs" href="/edit/{{ $store->getKey() }}">edit</a>
-                            <button class="btn btn-danger btn-xs" onclick="setStore({{ $store->getKey() }})"
+                            <a class="btn btn-success btn-xs" href="/product/edit/{{ $product->getKey() }}">edit</a>
+                            <button class="btn btn-danger btn-xs" onclick="setProduct({{ $product->getKey() }})"
                                data-toggle="modal" data-target="#delete-modal">delete</button>
                         </td>
                     </tr>
@@ -70,7 +71,7 @@
                     Do you really want to delete this item?
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" onclick="deleteStore()">Yes</button>
+                    <button type="button" class="btn btn-primary" onclick="deleteProduct()">Yes</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
                 </div>
             </div>
@@ -81,16 +82,16 @@
 
 @push('js')
     <script>
-        let selectedStoreId = null
+        let selectedProductId = null
 
-        let setStore = (id) => selectedStoreId = id
+        let setProduct = (id) => selectedProductId = id
 
-        let deleteStore = () => {
-            if(!selectedStoreId){
+        let deleteProduct = () => {
+            if(!selectedProductId){
                 return;
             }
 
-            window.location.href = '/delete/' + selectedStoreId
+            window.location.href = '/product/delete/' + selectedProductId
         }
     </script>
 @endpush
