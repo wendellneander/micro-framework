@@ -10,6 +10,7 @@ namespace Controllers;
 
 use Core\Controller;
 use Core\Request;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Repository\StoreRepository;
 
 class StoreController extends Controller
@@ -24,11 +25,15 @@ class StoreController extends Controller
         $this->storeRepository = $storeRepository;
     }
 
-    public function index()
+    public function index(Request $request)
     {
+        $params = $request->all();
+
+        $search = $params['q'];
+
         $stores = $this->storeRepository->all();
 
-        $this->view('store/index', ['stores' => $stores]);
+        $this->view('store/index', ['stores' => $stores, 'search' => $search]);
     }
 
     public function create()
@@ -38,30 +43,39 @@ class StoreController extends Controller
 
     public function edit(int $id)
     {
-        $store = $this->storeRepository->show($id);
+        try {
+            $store = $this->storeRepository->show($id);
 
-        $this->view('store/form', ['store' => $store]);
+            $this->view('store/form', ['store' => $store]);
+        } catch (ModelNotFoundException $exception) {
+            Request::redirect('/');
+        }
+
     }
 
     public function save(Request $request)
     {
         $this->storeRepository->create($request->all());
 
-        Request::redirect('store/index');
+        Request::redirect('/');
     }
 
     public function update(Request $request, int $id)
     {
-        $this->storeRepository->update($request->all(), $id);
+        try {
+            $this->storeRepository->update($request->all(), $id);
 
-        Request::redirect('store/index');
+            Request::redirect('/');
+        } catch (ModelNotFoundException $exception) {
+            Request::redirect('/');
+        }
     }
 
     public function delete(int $id)
     {
         $this->storeRepository->delete($id);
 
-        Request::redirect('store/index');
+        Request::redirect('/');
     }
 
 }
