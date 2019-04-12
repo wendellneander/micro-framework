@@ -43,7 +43,7 @@ class ProductController extends Controller
 
         $products = $this->productRepository->searchByName($search);
 
-        $this->view('product/index', ['product' => $products, 'search' => $search]);
+        $this->view('product/index', ['products' => $products, 'search' => $search]);
     }
 
     public function create()
@@ -66,7 +66,7 @@ class ProductController extends Controller
 
             $this->view('product/form', ['product' => $product,'stores' => $stores, 'categories' => $categories]);
         } catch (ModelNotFoundException $exception) {
-            Request::redirect('/');
+            Request::redirect('/product');
         }
 
     }
@@ -75,7 +75,7 @@ class ProductController extends Controller
     {
         $this->productRepository->create($request->all());
 
-        Request::redirect('/');
+        Request::redirect('/product');
     }
 
     public function update(Request $request, int $id)
@@ -83,9 +83,9 @@ class ProductController extends Controller
         try {
             $this->productRepository->update($request->all(), $id);
 
-            Request::redirect('/');
+            Request::redirect('/product');
         } catch (ModelNotFoundException $exception) {
-            Request::redirect('/');
+            Request::redirect('/product');
         }
     }
 
@@ -93,7 +93,7 @@ class ProductController extends Controller
     {
         $this->productRepository->delete($id);
 
-        Request::redirect('/');
+        Request::redirect('/product');
     }
 
 }

@@ -16,4 +16,13 @@ class CategoryRepository extends Repository
     {
         parent::__construct($model);
     }
+
+    public function searchByName($name)
+    {
+        if(!$name){
+            return $this->all();
+        }
+
+        return $this->model->query()->where('name', 'like', "%$name%")->get();
+    }
 }

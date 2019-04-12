@@ -10,7 +10,6 @@
             <div class="col-8">
                 <div class="btn-group" role="group">
                     <a type="button" class="btn btn-success" href="/new">New</a>
-                    <a type="button" class="btn btn-primary" href="/product">See Products</a>
                 </div>
             </div>
             <div class="col-4">

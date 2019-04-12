@@ -23,7 +23,7 @@
                 <select required class="form-control" name="category_id" id="category_id">
                     <option disabled>Select</option>
                     @foreach($categories as $category)
-                        <option {{ $product && $store->getKey() == $product->category_id ? 'selected' : '' }}
+                        <option {{ $product && $category->getKey() == $product->category_id ? 'selected' : '' }}
                                 value="{{ $category->getKey() }}">
                             {{ $category->name }}
                         </option>
@@ -47,7 +47,7 @@
             <button type="submit" class="btn btn-primary mb-2">Save</button>
 
             @if($product)
-                <button type="button" class="btn btn-danger mb-2" data-toggle="modal" data-target="#delete-modal">delete</button>
+                <button type="button" class="btn btn-danger mb-2" data-toggle="modal" data-target="#delete-modal">Delete</button>
             @endif
 
         </form>
@@ -79,8 +79,6 @@
     <script src="/assets/jquery.js"></script>
     <script src="/assets/jquery.mask.min.js"></script>
     <script>
-        $(function(){
-            $('.money').mask('000000.00', {reverse: true});
-        })
+        $('.money').mask('000000.00', {reverse: true});
     </script>
 @endpush
