@@ -33,14 +33,14 @@ class StoreController extends Controller
 
     public function create()
     {
-        $this->view('store/create');
+        $this->view('store/form');
     }
 
     public function edit(int $id)
     {
         $store = $this->storeRepository->show($id);
 
-        $this->view('store/edit', ['store' => $store]);
+        $this->view('store/form', ['store' => $store]);
     }
 
     public function save(Request $request)
