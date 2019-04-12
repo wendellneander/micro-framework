@@ -42,7 +42,8 @@
                         <td>{{ $store->address }}</td>
                         <td class="actions">
                             <a class="btn btn-success btn-xs" href="/edit/{{ $store->getKey() }}">edit</a>
-                            <a class="btn btn-danger btn-xs"  href="#" data-toggle="modal" data-target="#delete-modal">delete</a>
+                            <button class="btn btn-danger btn-xs" onclick="setStore({{ $store->getKey() }})"
+                               data-toggle="modal" data-target="#delete-modal">delete</button>
                         </td>
                     </tr>
                     @endforeach
@@ -59,7 +60,6 @@
         </table>
     </div>
 
-    <!-- Modal -->
     <div class="modal fade" id="delete-modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -70,7 +70,7 @@
                     Do you really want to delete this item?
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary">Yes</button>
+                    <button type="button" class="btn btn-primary" onclick="deleteStore()">Yes</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
                 </div>
             </div>
@@ -78,3 +78,19 @@
     </div>
 
 @endsection
+
+@push('js')
+    <script>
+        let selectedStoreId = null
+
+        let setStore = (id) => selectedStoreId = id
+
+        let deleteStore = () => {
+            if(!selectedStoreId){
+                return;
+            }
+
+            window.location.href = '/delete/' + selectedStoreId
+        }
+    </script>
+@endpush
