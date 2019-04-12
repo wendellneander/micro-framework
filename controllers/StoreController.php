@@ -31,7 +31,7 @@ class StoreController extends Controller
 
         $search = $params['q'];
 
-        $stores = $this->storeRepository->all();
+        $stores = $this->storeRepository->searchByName($search);
 
         $this->view('store/index', ['stores' => $stores, 'search' => $search]);
     }
