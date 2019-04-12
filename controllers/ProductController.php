@@ -41,9 +41,9 @@ class ProductController extends Controller
 
         $search = $params['q'];
 
-        $products = $this->productRepository->searchByName($search);
+        $stores = $this->storeRepository->searchByProductName($search, ['products'], true);
 
-        $this->view('product/index', ['products' => $products, 'search' => $search]);
+        $this->view('product/index', ['stores' => $stores, 'search' => $search]);
     }
 
     public function create()

@@ -43,21 +43,4 @@ abstract class Repository implements RepositoryInterface
     {
         return $this->model->query()->findOrFail($id);
     }
-
-    public function getModel()
-    {
-        return $this->model;
-    }
-
-    public function setModel($model)
-    {
-        $this->model = $model;
-
-        return $this;
-    }
-
-    public function with($relations)
-    {
-        return $this->model->with($relations);
-    }
 }

@@ -26,30 +26,43 @@
         <table class="table table-striped" cellspacing="0" cellpadding="0">
             <thead>
                 <tr>
-                    <th>Id</th>
+                    <th>Store</th>
                     <th>Name</th>
                     <th>Value</th>
+                    <th>Store</th>
                     <th class="actions"></th>
                 </tr>
             </thead>
             <tbody>
-                @if(count($products) > 0)
+                @if(count($stores) > 0)
 
-                    @foreach($products as $product)
-                    <tr>
-                        <td>{{ $product->getKey() }}</td>
-                        <td>{{ $product->name }}</td>
-                        <td>$ {{ $product->price }}</td>
-                        <td class="actions">
-                            <a class="btn btn-success btn-xs" href="/product/edit/{{ $product->getKey() }}">edit</a>
-                            <button class="btn btn-danger btn-xs" onclick="setProduct({{ $product->getKey() }})"
-                               data-toggle="modal" data-target="#delete-modal">delete</button>
-                        </td>
-                    </tr>
+                    @foreach($stores as $store)
+                        <tr>
+                            <td><strong>{{ $store->name }}</strong></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+
+                        @foreach($store->products as $product)
+                            <tr>
+                                <td></td>
+                                <td>{{ $product->name }}</td>
+                                <td>$ {{ $product->price }}</td>
+                                <td>{{ $product->store->name }}</td>
+                                <td class="actions">
+                                    <a class="btn btn-success btn-xs" href="/product/edit/{{ $product->getKey() }}">edit</a>
+                                    <button class="btn btn-danger btn-xs" onclick="setProduct({{ $product->getKey() }})"
+                                       data-toggle="modal" data-target="#delete-modal">delete</button>
+                                </td>
+                            </tr>
+                        @endforeach
                     @endforeach
                 @else
                     <tr>
                         <td>Nothing here</td>
+                        <td></td>
                         <td></td>
                         <td></td>
                         <td></td>

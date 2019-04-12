@@ -3,6 +3,7 @@
 namespace Repository;
 
 use Core\Repository;
+use Illuminate\Database\Eloquent\Builder;
 use Models\Store;
 
 class StoreRepository extends Repository
@@ -17,12 +18,35 @@ class StoreRepository extends Repository
         parent::__construct($model);
     }
 
-    public function searchByName($name)
+    public function searchByName($name, $with = [], $onlyWithProducts = false)
     {
-        if(!$name){
-            return $this->all();
+        $query = $this->model->query()->with($with);
+
+        if($name){
+            $query->where('name', 'like', "%$name%");
         }
 
-        return $this->model->query()->where('name', 'like', "%$name%")->get();
+        if($onlyWithProducts){
+            $query->whereHas('products');
+        }
+
+        return $query->get();
+    }
+
+    public function searchByProductName($name, $with = [], $onlyWithProducts = false)
+    {
+        $query = $this->model->query()->with($with);
+
+        if($name){
+            $query->whereHas('products', function(Builder $builder) use ($name) {
+                $builder->where('name', 'like', "%$name%");
+            });
+        }
+
+        if($onlyWithProducts){
+            $query->whereHas('products');
+        }
+
+        return $query->get();
     }
 }

@@ -13,10 +13,4 @@ interface RepositoryInterface
     public function delete($id);
 
     public function show($id);
-
-    public function getModel();
-
-    public function setModel($model);
-
-    public function with($relations);
 }

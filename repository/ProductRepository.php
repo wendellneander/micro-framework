@@ -17,12 +17,16 @@ class ProductRepository extends Repository
         parent::__construct($model);
     }
 
-    public function searchByName($name)
+    public function searchByName($name, $with = [])
     {
-        if(!$name){
-            return $this->all();
+        $query = $this->model->query()->with($with);
+
+        if($name){
+            $query->where('name', 'like', "%$name%");
         }
 
-        return $this->model->query()->where('name', 'like', "%$name%")->get();
+        return $query->get();
     }
+
+
 }
