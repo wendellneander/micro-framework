@@ -21,7 +21,6 @@ class StoreController extends Controller
 
     public function __construct(StoreRepository $storeRepository)
     {
-
         $this->storeRepository = $storeRepository;
     }
 
@@ -37,13 +36,6 @@ class StoreController extends Controller
         $this->view('store/create');
     }
 
-    public function save(Request $request)
-    {
-        $this->storeRepository->create($request->all());
-
-        //TODO redirect to index
-    }
-
     public function edit(int $id)
     {
         $store = $this->storeRepository->show($id);
@@ -51,18 +43,25 @@ class StoreController extends Controller
         $this->view('store/edit', ['store' => $store]);
     }
 
+    public function save(Request $request)
+    {
+        $this->storeRepository->create($request->all());
+
+        Request::redirect('store/index');
+    }
+
     public function update(Request $request, int $id)
     {
         $this->storeRepository->update($request->all(), $id);
 
-        //TODO redirect to index
+        Request::redirect('store/index');
     }
 
     public function delete(int $id)
     {
         $this->storeRepository->delete($id);
 
-        //TODO redirect to index
+        Request::redirect('store/index');
     }
 
 }
