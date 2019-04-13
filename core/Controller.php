@@ -10,7 +10,7 @@ namespace Core;
 
 abstract class Controller
 {
-    protected function view(string $path, array $params = [])
+    protected function view($path, array $params = [])
     {
         Blade::getInstance()->view($path, $params);
     }

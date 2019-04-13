@@ -69,7 +69,7 @@ class Router
         $this->setController();
     }
 
-    public function route(string $path, string $controller)
+    public function route($path, $controller)
     {
         $this->routes[] = [$path, $controller];
 

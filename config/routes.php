@@ -25,3 +25,5 @@ $router->route('/category/edit/{id}', 'CategoryController@edit');
 $router->route('/category/update/{id}', 'CategoryController@update');
 $router->route('/category/delete/{id}', 'CategoryController@delete');
 $router->route('/category/delete/{id}', 'CategoryController@delete');
+$router->route('/calcula-notas/{nota1}/{nota2}/{nota3}/{nota4}', 'MathController@calculateScore');
+$router->route('/calcula-temperatura/{celsius}', 'MathController@calculateTemperature');
