@@ -4,6 +4,7 @@ namespace Repository;
 
 use Core\Repository;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Models\Store;
 
 class StoreRepository extends Repository
@@ -22,28 +23,62 @@ class StoreRepository extends Repository
     {
         $query = $this->model->query()->with($with);
 
-        if($name){
+        if ($name) {
             $query->where('name', 'like', "%$name%");
         }
 
-        if($onlyWithProducts){
+        if ($onlyWithProducts) {
             $query->whereHas('products');
         }
 
         return $query->get();
     }
 
-    public function searchByProductName($name, $with = [], $onlyWithProducts = false)
+    public function searchByProductNameAndCategory($name, $category, $with = [], $onlyWithProducts = false)
+    {
+        $query = $this->model->query()->with([
+            'products' => function (HasMany $builder) use ($category, $name) {
+                if($name){
+                    $builder->where('name', 'like', "%$name%");
+                }
+
+                if($category){
+                    $builder->where('category_id', $category);
+                }
+            }
+        ]);
+
+        if($with){
+            $query->with($with);
+        }
+
+        if ($onlyWithProducts) {
+            $query->whereHas('products', function(Builder $builder) use ($name, $category) {
+                if($name){
+                    $builder->where('name', 'like', "%$name%");
+                }
+
+                if($category){
+                    $builder->where('category_id', $category);
+                }
+            });
+        }
+
+        return $query->get();
+    }
+
+
+    public function searchProductsByName($name, $with = [], $onlyWithProducts = false)
     {
         $query = $this->model->query()->with($with);
 
-        if($name){
-            $query->whereHas('products', function(Builder $builder) use ($name) {
+        if ($name) {
+            $query->whereHas('products', function (Builder $builder) use ($name) {
                 $builder->where('name', 'like', "%$name%");
             });
         }
 
-        if($onlyWithProducts){
+        if ($onlyWithProducts) {
             $query->whereHas('products');
         }
 

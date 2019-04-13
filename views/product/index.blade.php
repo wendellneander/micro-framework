@@ -7,19 +7,30 @@
         <h1 class="pb-2">Products</h1>
 
         <div class="row">
-            <div class="col-8">
+            <div class="col-6">
                 <div class="btn-group" role="group">
                     <a type="button" class="btn btn-success" href="/product/new">New</a>
                     <button type="button" class="btn btn-secondary"
                             data-toggle="modal" data-target="#import-modal">Import</button>
                 </div>
             </div>
-            <div class="col-4">
+            <div class="col-6">
                 <form class="form-inline" method="get">
+                    <div class="form-group mb-2">
+                        <select class="form-control" name="category" id="category">
+                            <option value="">Select a category</option>
+                            @foreach($categories as $category)
+                                <option {{ isset($category_id) && $category_id == $category->getKey() ? 'selected' : '' }}
+                                        value="{{ $category->getKey() }}">
+                                    {{ $category->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
                     <div class="form-group mx-sm-3 mb-2">
                         <input value="{{ $search ?? '' }}" name="q" type="text" class="form-control" id="search" placeholder="Search">
                     </div>
-                    <button type="submit" class="btn btn-primary mb-2">Search</button>
+                    <button type="submit" class="btn btn-primary mb-2">Apply</button>
                 </form>
             </div>
         </div>
@@ -30,6 +41,7 @@
                     <th>Store</th>
                     <th>Name</th>
                     <th>Value</th>
+                    <th>Category</th>
                     <th>Store</th>
                     <th class="actions"></th>
                 </tr>
@@ -44,6 +56,7 @@
                             <td></td>
                             <td></td>
                             <td></td>
+                            <td></td>
                         </tr>
 
                         @foreach($store->products as $product)
@@ -51,6 +64,7 @@
                                 <td></td>
                                 <td>{{ $product->name }}</td>
                                 <td>$ {{ $product->price }}</td>
+                                <td>{{ $product->category->name }}</td>
                                 <td>{{ $product->store->name }}</td>
                                 <td class="actions">
                                     <a class="btn btn-success btn-xs" href="/product/edit/{{ $product->getKey() }}">edit</a>
@@ -63,6 +77,7 @@
                 @else
                     <tr>
                         <td>Nothing here</td>
+                        <td></td>
                         <td></td>
                         <td></td>
                         <td></td>

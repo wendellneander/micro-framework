@@ -4,6 +4,7 @@ namespace Controllers;
 
 use Core\Controller;
 use Core\Request;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Repository\CategoryRepository;
 use Repository\ProductRepository;
@@ -47,11 +48,20 @@ class ProductController extends Controller
     {
         $params = $request->all();
 
-        $search = isset($params['q']) && $params['q'] ? $params['q']  : null;
+        $search = isset($params['q']) && $params['q'] ? $params['q'] : null;
 
-        $stores = $this->storeRepository->searchByProductName($search, ['products'], true);
+        $categoryId = isset($params['category']) && $params['category'] ? $params['category'] : null;
 
-        $this->view('product/index', ['stores' => $stores, 'search' => $search]);
+        $categories = $this->categoryRepository->all();
+
+        $stores = $this->storeRepository->searchByProductNameAndCategory($search, $categoryId, ['products.category'], true);
+
+        $this->view('product/index', [
+            'stores' => $stores,
+            'search' => $search,
+            'category_id' => $categoryId,
+            'categories' => $categories,
+        ]);
     }
 
     public function create()
@@ -72,7 +82,7 @@ class ProductController extends Controller
 
             $categories = $this->categoryRepository->all();
 
-            $this->view('product/form', ['product' => $product,'stores' => $stores, 'categories' => $categories]);
+            $this->view('product/form', ['product' => $product, 'stores' => $stores, 'categories' => $categories]);
         } catch (ModelNotFoundException $exception) {
             Request::redirect('/product');
         }
