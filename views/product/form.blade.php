@@ -3,19 +3,19 @@
 @section('content')
     <div class="pt-5">
 
-        <h1 class="pb-2">{{ $product ? 'Edit' : 'New' }} Product</h1>
+        <h1 class="pb-2">{{ isset($product) && $product ? 'Edit' : 'New' }} Product</h1>
 
-        <form method="post" action="{{ $product ? '/product/update/' . $product->getKey() : '/product/save' }}">
+        <form method="post" action="{{ isset($product) && $product ? '/product/update/' . $product->getKey() : '/product/save' }}">
             <div class="form-group">
                 <label for="name">Name</label>
                 <input required type="text" class="form-control"
-                       id="name" name="name" value="{{ $product ? $product->name : '' }}">
+                       id="name" name="name" value="{{ isset($product) && $product ? $product->name : '' }}">
             </div>
 
             <div class="form-group">
                 <label for="price">Price</label>
                 <input required type="text" class="form-control money"
-                       id="price" name="price" value="{{ $product ? $product->price : '' }}">
+                       id="price" name="price" value="{{ isset($product) && $product ? $product->price : '' }}">
             </div>
 
             <div class="form-group">
@@ -23,7 +23,7 @@
                 <select required class="form-control" name="category_id" id="category_id">
                     <option disabled>Select</option>
                     @foreach($categories as $category)
-                        <option {{ $product && $category->getKey() == $product->category_id ? 'selected' : '' }}
+                        <option {{ isset($product) && $product && $category->getKey() == $product->category_id ? 'selected' : '' }}
                                 value="{{ $category->getKey() }}">
                             {{ $category->name }}
                         </option>
@@ -36,7 +36,7 @@
                 <select required class="form-control" name="store_id" id="store_id">
                     <option disabled>Select</option>
                     @foreach($stores as $store)
-                        <option {{ $product && $store->getKey() == $product->store_id ? 'selected' : '' }}
+                        <option {{ isset($product) && $product && $store->getKey() == $product->store_id ? 'selected' : '' }}
                                 value="{{ $store->getKey() }}">
                             {{ $store->name }}
                         </option>
@@ -46,7 +46,7 @@
 
             <button type="submit" class="btn btn-primary mb-2">Save</button>
 
-            @if($product)
+            @if(isset($product) && $product)
                 <button type="button" class="btn btn-danger mb-2" data-toggle="modal" data-target="#delete-modal">Delete</button>
             @endif
 
@@ -54,7 +54,7 @@
 
     </div>
 
-    @if($product)
+    @if(isset($product) && $product)
         <div class="modal fade" id="delete-modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">

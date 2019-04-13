@@ -47,7 +47,7 @@ class ProductController extends Controller
     {
         $params = $request->all();
 
-        $search = $params['q'];
+        $search = isset($params['q']) && $params['q'] ? $params['q']  : null;
 
         $stores = $this->storeRepository->searchByProductName($search, ['products'], true);
 

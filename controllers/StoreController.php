@@ -29,7 +29,7 @@ class StoreController extends Controller
     {
         $params = $request->all();
 
-        $search = $params['q'];
+        $search = isset($params['q']) && $params['q'] ? $params['q']  : null;
 
         $stores = $this->storeRepository->searchByName($search);
 

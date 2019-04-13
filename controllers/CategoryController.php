@@ -29,7 +29,7 @@ class CategoryController extends Controller
     {
         $params = $request->all();
 
-        $search = $params['q'];
+        $search = isset($params['q']) && $params['q'] ? $params['q']  : null;
 
         $categories = $this->categoryRepository->searchByName($search);
 
