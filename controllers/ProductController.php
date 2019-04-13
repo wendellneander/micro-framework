@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Repository\CategoryRepository;
 use Repository\ProductRepository;
 use Repository\StoreRepository;
+use Support\ProductsImport;
+use Support\XlsxReader;
 
 class ProductController extends Controller
 {
@@ -23,16 +25,22 @@ class ProductController extends Controller
      * @var CategoryRepository
      */
     private $categoryRepository;
+    /**
+     * @var ProductsImport
+     */
+    private $productsImport;
 
     public function __construct(
         ProductRepository $productRepository,
         StoreRepository $storeRepository,
-        CategoryRepository $categoryRepository
+        CategoryRepository $categoryRepository,
+        ProductsImport $productsImport
     )
     {
         $this->productRepository = $productRepository;
         $this->storeRepository = $storeRepository;
         $this->categoryRepository = $categoryRepository;
+        $this->productsImport = $productsImport;
     }
 
     public function index(Request $request)
@@ -92,6 +100,17 @@ class ProductController extends Controller
     public function delete(int $id)
     {
         $this->productRepository->delete($id);
+
+        Request::redirect('/product');
+    }
+
+    /**
+     * @throws \PhpOffice\PhpSpreadsheet\Exception
+     * @throws \PhpOffice\PhpSpreadsheet\Reader\Exception
+     */
+    public function import()
+    {
+        $this->productsImport->importFromUploadedFile();
 
         Request::redirect('/product');
     }

@@ -49,4 +49,9 @@ class StoreRepository extends Repository
 
         return $query->get();
     }
+
+    public function exists($column, $value)
+    {
+        return $this->model->query()->where($column, $value)->exists();
+    }
 }

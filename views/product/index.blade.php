@@ -10,7 +10,8 @@
             <div class="col-8">
                 <div class="btn-group" role="group">
                     <a type="button" class="btn btn-success" href="/product/new">New</a>
-                    <button type="button" class="btn btn-secondary">Import</button>
+                    <button type="button" class="btn btn-secondary"
+                            data-toggle="modal" data-target="#import-modal">Import</button>
                 </div>
             </div>
             <div class="col-4">
@@ -86,6 +87,28 @@
                     <button type="button" class="btn btn-primary" onclick="deleteProduct()">Yes</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="import-modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form action="/product/import" enctype="multipart/form-data" method="post">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="modalLabel">Import Products</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <input accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+                                   name="file" type="file">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Import</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

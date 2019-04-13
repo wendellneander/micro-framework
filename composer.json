@@ -12,6 +12,7 @@
       "Models\\": "models/",
       "Repository\\": "repository/",
       "Interfaces\\": "interfaces/",
+      "Support\\": "support/",
       "Core\\": "core/"
     },
     "require": {
@@ -22,6 +23,7 @@
     "jenssegers/blade": "^1.1",
     "ext-pdo": "*",
     "vlucas/phpdotenv": "^3.3",
-    "illuminate/database": "^5.8"
+    "illuminate/database": "^5.8",
+    "phpoffice/phpspreadsheet": "^1.6"
   }
 }

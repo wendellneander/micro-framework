@@ -15,10 +15,12 @@ $router->route('/product/save', 'ProductController@save');
 $router->route('/product/edit/{id}', 'ProductController@edit');
 $router->route('/product/update/{id}', 'ProductController@update');
 $router->route('/product/delete/{id}', 'ProductController@delete');
+$router->route('/product/import', 'ProductController@import');
 
 $router->route('/category', 'CategoryController@index');
 $router->route('/category/new', 'CategoryController@create');
 $router->route('/category/save', 'CategoryController@save');
 $router->route('/category/edit/{id}', 'CategoryController@edit');
 $router->route('/category/update/{id}', 'CategoryController@update');
+$router->route('/category/delete/{id}', 'CategoryController@delete');
 $router->route('/category/delete/{id}', 'CategoryController@delete');
