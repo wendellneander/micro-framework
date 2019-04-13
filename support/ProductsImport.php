@@ -2,6 +2,7 @@
 
 namespace Support;
 
+use Illuminate\Support\Facades\DB;
 use Models\Product;
 use Repository\CategoryRepository;
 use Repository\ProductRepository;
@@ -58,6 +59,7 @@ class ProductsImport extends XlsxReader
      * @return void|null
      * @throws \PhpOffice\PhpSpreadsheet\Exception
      * @throws \PhpOffice\PhpSpreadsheet\Reader\Exception
+     * @throws \Exception
      */
     public function importFromUploadedFile()
     {
@@ -72,15 +74,26 @@ class ProductsImport extends XlsxReader
      */
     private function run()
     {
-        foreach ($this->rows as $index => $row) {
-            $rowParsed = $this->parseRow($row);
+        try {
+            DB::beginTransaction();
 
-            $this->validateRow($rowParsed, $index);
+            foreach ($this->rows as $index => $row) {
+                $rowParsed = $this->parseRow($row);
 
-            $data = $this->createCategory($rowParsed);
+                $this->validateRow($rowParsed, $index);
 
-            $this->persistRow($data);
+                $data = $this->createCategory($rowParsed);
+
+                $this->persistRow($data);
+            }
+
+            DB::commit();
+        } catch (\Exception $exception) {
+            DB::rollBack();
+
+            throw new $exception;
         }
+
 
         return $this->products;
     }
