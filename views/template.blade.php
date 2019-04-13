@@ -29,6 +29,13 @@
     </nav>
 
     <div class="container">
+
+        @if($message = \Core\Session::getFlash('message'))
+            <div class="alert alert-danger mt-5" role="alert">
+               {{ $message }}
+            </div>
+        @endif
+
         @yield('content')
     </div>
 

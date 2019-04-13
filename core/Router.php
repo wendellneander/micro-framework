@@ -62,6 +62,8 @@ class Router
 
         $this->url = $this->getUrl();
 
+        $this->clearFlashSession();
+
         $this->setRoutes();
 
         $this->getRoute();
@@ -173,6 +175,11 @@ class Router
     private function getUrl()
     {
         return parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+    }
+
+    private function clearFlashSession()
+    {
+        Session::getInstance()->clearFlashes();
     }
 
 }

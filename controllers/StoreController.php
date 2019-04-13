@@ -1,16 +1,10 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Wendell
- * Date: 08/04/2019
- * Time: 23:22
- */
 
 namespace Controllers;
 
 use Core\Controller;
 use Core\Request;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Core\Session;
 use Repository\StoreRepository;
 
 class StoreController extends Controller
@@ -29,7 +23,7 @@ class StoreController extends Controller
     {
         $params = $request->all();
 
-        $search = isset($params['q']) && $params['q'] ? $params['q']  : null;
+        $search = isset($params['q']) && $params['q'] ? $params['q'] : null;
 
         $stores = $this->storeRepository->searchByName($search);
 
@@ -47,7 +41,9 @@ class StoreController extends Controller
             $store = $this->storeRepository->show($id);
 
             $this->view('store/form', ['store' => $store]);
-        } catch (ModelNotFoundException $exception) {
+        } catch (\Exception $exception) {
+            Session::flash('message', $exception->getMessage());
+
             Request::redirect('/');
         }
 
@@ -55,7 +51,11 @@ class StoreController extends Controller
 
     public function save(Request $request)
     {
-        $this->storeRepository->create($request->all());
+        try {
+            $this->storeRepository->create($request->all());
+        } catch (\Exception $exception) {
+            Session::flash('message', $exception->getMessage());
+        }
 
         Request::redirect('/');
     }
@@ -64,11 +64,11 @@ class StoreController extends Controller
     {
         try {
             $this->storeRepository->update($request->all(), $id);
-
-            Request::redirect('/');
-        } catch (ModelNotFoundException $exception) {
-            Request::redirect('/');
+        } catch (\Exception $exception) {
+            Session::flash('message', $exception->getMessage());
         }
+
+        Request::redirect('/');
     }
 
     public function delete(int $id)

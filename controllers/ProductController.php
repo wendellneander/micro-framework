@@ -4,6 +4,7 @@ namespace Controllers;
 
 use Core\Controller;
 use Core\Request;
+use Core\Session;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Repository\CategoryRepository;
@@ -110,7 +111,10 @@ class ProductController extends Controller
             $categories = $this->categoryRepository->all();
 
             $this->view('product/form', ['product' => $product, 'stores' => $stores, 'categories' => $categories]);
-        } catch (ModelNotFoundException $exception) {
+        } catch (\Exception $exception) {
+
+            Session::flash('message', $exception->getMessage());
+
             Request::redirect('/products');
         }
 
@@ -127,11 +131,11 @@ class ProductController extends Controller
     {
         try {
             $this->productRepository->update($request->all(), $id);
-
-            Request::redirect('/products');
-        } catch (ModelNotFoundException $exception) {
-            Request::redirect('/products');
+        } catch (\Exception $exception) {
+            Session::flash('message', $exception->getMessage());
         }
+
+        Request::redirect('/products');
     }
 
     public function delete(int $id)
@@ -142,14 +146,18 @@ class ProductController extends Controller
     }
 
     /**
-     * @throws \PhpOffice\PhpSpreadsheet\Exception
-     * @throws \PhpOffice\PhpSpreadsheet\Reader\Exception
+     *
      */
     public function import()
     {
-        $this->productsImport->importFromUploadedFile();
+        try{
+            $this->productsImport->importFromUploadedFile();
+        }catch (\Exception $exception){
+            Session::flash('message', $exception->getMessage());
+        }
 
         Request::redirect('/product');
+
     }
 
 }

@@ -1,16 +1,10 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Wendell
- * Date: 08/04/2019
- * Time: 23:22
- */
 
 namespace Controllers;
 
 use Core\Controller;
 use Core\Request;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Core\Session;
 use Repository\CategoryRepository;
 
 class CategoryController extends Controller
@@ -29,7 +23,7 @@ class CategoryController extends Controller
     {
         $params = $request->all();
 
-        $search = isset($params['q']) && $params['q'] ? $params['q']  : null;
+        $search = isset($params['q']) && $params['q'] ? $params['q'] : null;
 
         $categories = $this->categoryRepository->searchByName($search);
 
@@ -47,7 +41,10 @@ class CategoryController extends Controller
             $category = $this->categoryRepository->show($id);
 
             $this->view('category/form', ['category' => $category]);
-        } catch (ModelNotFoundException $exception) {
+        } catch (\Exception $exception) {
+
+            Session::flash('message', $exception->getMessage());
+
             Request::redirect('/categories');
         }
 
@@ -64,11 +61,11 @@ class CategoryController extends Controller
     {
         try {
             $this->categoryRepository->update($request->all(), $id);
-
-            Request::redirect('/');
-        } catch (ModelNotFoundException $exception) {
-            Request::redirect('/categories');
+        } catch (\Exception $exception) {
+            Session::flash('message', $exception->getMessage());
         }
+
+        Request::redirect('/categories');
     }
 
     public function delete(int $id)
