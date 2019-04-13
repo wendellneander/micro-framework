@@ -67,6 +67,40 @@ class StoreRepository extends Repository
         return $query->get();
     }
 
+    public function searchByProductNameAndStoreAndCategory($name, $store, $category, $with = [], $onlyWithProducts = false)
+    {
+        $query = $this->model->query()->with([
+            'products' => function (HasMany $builder) use ($category, $name) {
+                if($name){
+                    $builder->where('name', 'like', "%$name%");
+                }
+
+                if($category){
+                    $builder->where('category_id', $category);
+                }
+            }
+        ]);
+
+        if($with){
+            $query->with($with);
+        }
+
+        if ($onlyWithProducts) {
+            $query->whereHas('products', function(Builder $builder) use ($name, $category) {
+                if($name){
+                    $builder->where('name', 'like', "%$name%");
+                }
+
+                if($category){
+                    $builder->where('category_id', $category);
+                }
+            });
+        }
+
+        $query->where('id', $store);
+
+        return $query->get();
+    }
 
     public function searchProductsByName($name, $with = [], $onlyWithProducts = false)
     {

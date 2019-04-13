@@ -48,7 +48,7 @@ class CategoryController extends Controller
 
             $this->view('category/form', ['category' => $category]);
         } catch (ModelNotFoundException $exception) {
-            Request::redirect('/category');
+            Request::redirect('/categories');
         }
 
     }
@@ -57,7 +57,7 @@ class CategoryController extends Controller
     {
         $this->categoryRepository->create($request->all());
 
-        Request::redirect('/category');
+        Request::redirect('/categories');
     }
 
     public function update(Request $request, int $id)
@@ -67,7 +67,7 @@ class CategoryController extends Controller
 
             Request::redirect('/');
         } catch (ModelNotFoundException $exception) {
-            Request::redirect('/category');
+            Request::redirect('/categories');
         }
     }
 
@@ -75,7 +75,7 @@ class CategoryController extends Controller
     {
         $this->categoryRepository->delete($id);
 
-        Request::redirect('/category');
+        Request::redirect('/categories');
     }
 
 }

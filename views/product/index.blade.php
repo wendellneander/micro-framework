@@ -4,7 +4,7 @@
 
     <div class="pt-5">
 
-        <h1 class="pb-2">Products</h1>
+        <h1 class="pb-2">{{ isset($store_name) ? $store_name.' ' : '' }}Products</h1>
 
         <div class="row">
             <div class="col-6">

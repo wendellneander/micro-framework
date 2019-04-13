@@ -64,6 +64,33 @@ class ProductController extends Controller
         ]);
     }
 
+    public function productsByStoreAndCategory(Request $request, $storeId, $categoryId)
+    {
+        $params = $request->all();
+
+        $search = isset($params['q']) && $params['q'] ? $params['q'] : null;
+
+        $categories = $this->categoryRepository->all();
+
+        $store = $this->storeRepository->show($storeId);
+
+        $stores = $this->storeRepository->searchByProductNameAndStoreAndCategory(
+            $search,
+            $storeId,
+            $categoryId,
+            ['products.category'],
+            true
+        );
+
+        $this->view('product/index', [
+            'stores' => $stores,
+            'search' => $search,
+            'category_id' => $categoryId,
+            'categories' => $categories,
+            'store_name' => $store ? $store->name : ''
+        ]);
+    }
+
     public function create()
     {
         $stores = $this->storeRepository->all();
@@ -84,7 +111,7 @@ class ProductController extends Controller
 
             $this->view('product/form', ['product' => $product, 'stores' => $stores, 'categories' => $categories]);
         } catch (ModelNotFoundException $exception) {
-            Request::redirect('/product');
+            Request::redirect('/products');
         }
 
     }
@@ -93,7 +120,7 @@ class ProductController extends Controller
     {
         $this->productRepository->create($request->all());
 
-        Request::redirect('/product');
+        Request::redirect('/products');
     }
 
     public function update(Request $request, int $id)
@@ -101,9 +128,9 @@ class ProductController extends Controller
         try {
             $this->productRepository->update($request->all(), $id);
 
-            Request::redirect('/product');
+            Request::redirect('/products');
         } catch (ModelNotFoundException $exception) {
-            Request::redirect('/product');
+            Request::redirect('/products');
         }
     }
 
@@ -111,7 +138,7 @@ class ProductController extends Controller
     {
         $this->productRepository->delete($id);
 
-        Request::redirect('/product');
+        Request::redirect('/products');
     }
 
     /**

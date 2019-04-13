@@ -1,4 +1,4 @@
-@extends('template', ['title' => 'Categorys'])
+@extends('template', ['title' => 'Categories'])
 
 @section('content')
 

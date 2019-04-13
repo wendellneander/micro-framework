@@ -19,10 +19,10 @@
                     <a class="nav-link" style="color: white" href="/">Stores</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link --white"style="color: white" href="/product">Products</a>
+                    <a class="nav-link --white"style="color: white" href="/products">Products</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link --white" style="color: white" href="/category">Categories</a>
+                    <a class="nav-link --white" style="color: white" href="/categories">Categories</a>
                 </li>
             </ul>
         </div>
