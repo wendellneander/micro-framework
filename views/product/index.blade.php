@@ -115,7 +115,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
-                            <input accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+                            <input required accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
                                    name="file" type="file">
                         </div>
                     </div>
