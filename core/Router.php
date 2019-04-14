@@ -62,8 +62,6 @@ class Router
 
         $this->url = $this->getUrl();
 
-        echo $this->url;
-
         $this->clearFlashSession();
 
         $this->setRoutes();
