@@ -82,6 +82,7 @@ class StoreController extends Controller
         try {
             $data = $request->all();
 print_r($data);
+exit;
             Validator::getInstance()->validate($data, [
                 'name' => 'string|required',
                 'address' => 'string|required',
