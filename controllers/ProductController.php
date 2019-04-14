@@ -164,6 +164,10 @@ class ProductController extends Controller
             $this->productRepository->update($request->all(), $id);
         } catch (\Exception $exception) {
             Session::flash('message', $exception->getMessage());
+
+            Request::redirect("/product/edit/$id");
+
+            return;
         }
 
         Request::redirect('/products');

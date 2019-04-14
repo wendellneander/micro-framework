@@ -89,6 +89,10 @@ class CategoryController extends Controller
             $this->categoryRepository->update($request->all(), $id);
         } catch (\Exception $exception) {
             Session::flash('message', $exception->getMessage());
+
+            Request::redirect("/category/edit/$id");
+
+            return;
         }
 
         Request::redirect('/categories');

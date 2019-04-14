@@ -90,6 +90,10 @@ class StoreController extends Controller
             $this->storeRepository->update($request->all(), $id);
         } catch (\Exception $exception) {
             Session::flash('message', $exception->getMessage());
+
+            Request::redirect("/edit/$id");
+
+            return;
         }
 
         Request::redirect('/');
