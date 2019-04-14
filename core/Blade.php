@@ -39,6 +39,10 @@ class Blade
 
         $cachePath = __DIR__ . '/../storage/cache/views';
 
+        if(!is_dir($cachePath)){
+            mkdir($cachePath);
+        }
+
         $this->engine = new \Jenssegers\Blade\Blade([$viewPath], $cachePath);
     }
 
