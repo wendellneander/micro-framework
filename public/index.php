@@ -4,8 +4,13 @@ session_start();
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-\Dotenv\Dotenv::create(__DIR__ . '/..')->load();
-exit('123');
+try{
+    \Dotenv\Dotenv::create(__DIR__ . '/..')->load();
+}catch (Exception $e){
+    var_dump($e);
+    exit;
+}
+
 require_once __DIR__ . '/../config/routes.php';
 
 require_once __DIR__ . '/../config/database.php';
