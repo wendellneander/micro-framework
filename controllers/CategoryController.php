@@ -6,6 +6,7 @@ use Core\Controller;
 use Core\Request;
 use Core\Session;
 use Core\Validator;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Repository\CategoryRepository;
 
 class CategoryController extends Controller
@@ -42,30 +43,34 @@ class CategoryController extends Controller
             $category = $this->categoryRepository->show($id);
 
             $this->view('category/form', ['category' => $category]);
+        } catch (ModelNotFoundException $exception) {
+            Session::flash('message', $exception->getMessage());
+
+            Request::redirect('/categories');
         } catch (\Exception $exception) {
 
             Session::flash('message', $exception->getMessage());
 
-            Request::redirect('/categories');
+            Request::redirect("/category/edit/$id");
         }
 
     }
 
     public function save(Request $request)
     {
-        try{
-
+        try {
             $data = $request->all();
 
-            Validator::getInstance()->validate($data,[
+            Validator::getInstance()->validate($data, [
                 'name' => 'string|required',
             ]);
 
             $this->categoryRepository->create($request->all());
         } catch (\Exception $exception) {
             Session::flash('message', $exception->getMessage());
-        }
 
+            Request::redirect('/category/new');
+        }
 
         Request::redirect('/categories');
     }

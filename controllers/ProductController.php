@@ -112,18 +112,22 @@ class ProductController extends Controller
             $categories = $this->categoryRepository->all();
 
             $this->view('product/form', ['product' => $product, 'stores' => $stores, 'categories' => $categories]);
+        } catch (ModelNotFoundException $exception) {
+            Session::flash('message', $exception->getMessage());
+
+            Request::redirect('/products');
         } catch (\Exception $exception) {
 
             Session::flash('message', $exception->getMessage());
 
-            Request::redirect('/products');
+            Request::redirect("/product/edit/$id");
         }
 
     }
 
     public function save(Request $request)
     {
-        try{
+        try {
             $data = $request->all();
 
             Validator::getInstance()->validate($data, [
@@ -136,6 +140,8 @@ class ProductController extends Controller
             $this->productRepository->create($request->all());
         } catch (\Exception $exception) {
             Session::flash('message', $exception->getMessage());
+
+            Request::redirect('/product/new');
         }
 
         Request::redirect('/products');
@@ -173,9 +179,9 @@ class ProductController extends Controller
      */
     public function import()
     {
-        try{
+        try {
             $this->productsImport->importFromUploadedFile();
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
             Session::flash('message', $exception->getMessage());
         }
 

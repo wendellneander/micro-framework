@@ -6,6 +6,7 @@ use Core\Controller;
 use Core\Request;
 use Core\Session;
 use Core\Validator;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Repository\StoreRepository;
 
 class StoreController extends Controller
@@ -42,10 +43,14 @@ class StoreController extends Controller
             $store = $this->storeRepository->show($id);
 
             $this->view('store/form', ['store' => $store]);
-        } catch (\Exception $exception) {
+        } catch (ModelNotFoundException $exception) {
             Session::flash('message', $exception->getMessage());
 
             Request::redirect('/');
+        } catch (\Exception $exception) {
+            Session::flash('message', $exception->getMessage());
+
+            Request::redirect("/edit/$id");
         }
 
     }
@@ -55,7 +60,7 @@ class StoreController extends Controller
         try {
             $data = $request->all();
 
-            Validator::getInstance()->validate($data,[
+            Validator::getInstance()->validate($data, [
                 'name' => 'string|required',
                 'address' => 'string|required',
             ]);
@@ -63,6 +68,8 @@ class StoreController extends Controller
             $this->storeRepository->create($request->all());
         } catch (\Exception $exception) {
             Session::flash('message', $exception->getMessage());
+
+            Request::redirect('/new');
         }
 
         Request::redirect('/');

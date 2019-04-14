@@ -20,7 +20,7 @@ class MathController extends Controller
                 'score2' => $score2,
                 'score3' => $score3,
                 'score4' => $score4,
-            ],[
+            ], [
                 'score1' => 'integer',
                 'score2' => 'integer',
                 'score3' => 'integer',
@@ -48,7 +48,7 @@ class MathController extends Controller
         try {
             Validator::getInstance()->validate([
                 'celsius' => $celsius
-            ],[
+            ], [
                 'celsius' => 'integer'
             ]);
 
@@ -65,13 +65,12 @@ class MathController extends Controller
 
     public function calculateAge($years, $months, $days)
     {
-
         try {
             Validator::getInstance()->validate([
                 'years' => $years,
                 'months' => $months,
                 'days' => $days,
-            ],[
+            ], [
                 'years' => 'integer',
                 'months' => 'integer',
                 'days' => 'integer',
