@@ -18,7 +18,7 @@ Requisitos
 Instalação
 ------------
 
-Install using composer:
+Instalação via composer
 
 ```bash
 composer install
@@ -26,7 +26,7 @@ composer install
 
 Banco de Dados
 ------------
-- Crie um banco de dados com o seguinte schema
+Crie um banco de dados com o seguinte schema
 
 Mysql
 ```
@@ -94,13 +94,13 @@ Configuração
 Utilização
 ------------
 
-####Rotas
+#### Rotas
 As rotas são configuradas no arquivo config/routes.php
 ```
 $router->route('/', 'StoreController@index');
 ```
 
-####Banco de dados
+#### Banco de dados
 É possível adicionar várias configurações para banco de dados no arquivo config/database.php. Suporte para mysql, postgresql e sqlserver
 ```
 
@@ -118,7 +118,7 @@ $database->addConfig('db', [
 $database->setCurrentConfig('db');
 ```
 
-####Instruções para o teste
+#### Instruções para o teste
 
 Calcular nota
 ```
