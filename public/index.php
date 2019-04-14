@@ -6,10 +6,7 @@ require_once __DIR__ . '/../vendor/autoload.php';
 
 try{
     \Dotenv\Dotenv::create(__DIR__ . '/..')->load();
-}catch (Exception $e){
-    var_dump($e);
-    exit;
-}
+}catch (Exception $e){}
 
 require_once __DIR__ . '/../config/routes.php';
 
