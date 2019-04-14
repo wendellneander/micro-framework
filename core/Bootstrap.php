@@ -26,14 +26,11 @@ class Bootstrap
      */
     public function start()
     {
-        echo 'database';
         $this->database();
-        echo 'blade';
 
         $this->templateEngine();
-        echo 'router';
+
         $this->router();
-        echo 'ok';
     }
 
     /**

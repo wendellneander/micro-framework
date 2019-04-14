@@ -23,7 +23,6 @@ class StoreController extends Controller
 
     public function index(Request $request)
     {
-        echo "STORE";
         $params = $request->all();
 
         $search = isset($params['q']) && $params['q'] ? $params['q'] : null;
