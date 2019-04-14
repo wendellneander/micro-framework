@@ -3,7 +3,7 @@
 session_start();
 
 require_once __DIR__ . '/../vendor/autoload.php';
-exit('asd');
+exit('asdsdfgsdfg');
 \Dotenv\Dotenv::create(__DIR__ . '/..')->load();
 
 require_once __DIR__ . '/../config/routes.php';
