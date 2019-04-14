@@ -2,6 +2,7 @@
 
 namespace Support;
 
+use Core\DataBase;
 use Illuminate\Support\Facades\DB;
 use Models\Product;
 use Repository\CategoryRepository;
@@ -75,7 +76,7 @@ class ProductsImport extends XlsxReader
     private function run()
     {
         try {
-            DB::beginTransaction();
+            DataBase::beginTransaction();
 
             foreach ($this->rows as $index => $row) {
                 $rowParsed = $this->parseRow($row);
@@ -87,11 +88,11 @@ class ProductsImport extends XlsxReader
                 $this->persistRow($data);
             }
 
-            DB::commit();
+            DataBase::commit();
         } catch (\Exception $exception) {
-            DB::rollBack();
+            DataBase::rollBack();
 
-            throw new $exception;
+            throw $exception;
         }
 
 

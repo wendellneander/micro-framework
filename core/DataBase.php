@@ -68,6 +68,11 @@ class DataBase
     private $configKeys;
 
     /**
+     * @var Capsule $capsule
+     */
+    protected $capsule;
+
+    /**
      * @return DataBase
      */
     public static function getInstance()
@@ -79,6 +84,27 @@ class DataBase
         }
 
         return static::$instance;
+    }
+
+    /**
+     * @throws \Exception
+     */
+    public static function beginTransaction()
+    {
+        self::$instance->capsule->getConnection()->beginTransaction();
+    }
+
+    public static function commit()
+    {
+        self::$instance->capsule->getConnection()->commit();
+    }
+
+    /**
+     * @throws \Exception
+     */
+    public static function rollBack()
+    {
+        self::$instance->capsule->getConnection()->rollBack();
     }
 
     public function run()
@@ -136,9 +162,9 @@ class DataBase
      */
     private function eloquent()
     {
-        $capsule = new Capsule;
+        $this->capsule = new Capsule;
 
-        $capsule->addConnection([
+        $this->capsule->addConnection([
             'driver' => $this->driver,
             'host' => $this->host,
             'database' => $this->database,
@@ -149,6 +175,6 @@ class DataBase
             'prefix' => ''
         ]);
 
-        $capsule->bootEloquent();
+        $this->capsule->bootEloquent();
     }
 }
