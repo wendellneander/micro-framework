@@ -27,3 +27,4 @@ $router->route('/category/delete/{id}', 'CategoryController@delete');
 $router->route('/category/delete/{id}', 'CategoryController@delete');
 $router->route('/calcula-notas/{nota1}/{nota2}/{nota3}/{nota4}', 'MathController@calculateScore');
 $router->route('/calcula-temperatura/{celsius}', 'MathController@calculateTemperature');
+$router->route('/calcula-idade/{years}/{months}/{days}', 'MathController@calculateAge');
