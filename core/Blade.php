@@ -53,7 +53,7 @@ class Blade
     public function view($path, $data = null)
     {
         $view = $this->engine->render($path, $data);
-        var_dump($view);
+
         echo $view;
     }
 }
