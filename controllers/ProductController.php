@@ -5,6 +5,7 @@ namespace Controllers;
 use Core\Controller;
 use Core\Request;
 use Core\Session;
+use Core\Validator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Repository\CategoryRepository;
@@ -122,7 +123,20 @@ class ProductController extends Controller
 
     public function save(Request $request)
     {
-        $this->productRepository->create($request->all());
+        try{
+            $data = $request->all();
+
+            Validator::getInstance()->validate($data, [
+                'name' => 'string|required',
+                'price' => 'numeric|required',
+                'store_id' => 'integer|required',
+                'category_id' => 'integer|required',
+            ]);
+
+            $this->productRepository->create($request->all());
+        } catch (\Exception $exception) {
+            Session::flash('message', $exception->getMessage());
+        }
 
         Request::redirect('/products');
     }
@@ -130,6 +144,15 @@ class ProductController extends Controller
     public function update(Request $request, int $id)
     {
         try {
+            $data = $request->all();
+
+            Validator::getInstance()->validate($data, [
+                'name' => 'string|required',
+                'price' => 'numeric|required',
+                'store_id' => 'integer|required',
+                'category_id' => 'integer|required',
+            ]);
+
             $this->productRepository->update($request->all(), $id);
         } catch (\Exception $exception) {
             Session::flash('message', $exception->getMessage());

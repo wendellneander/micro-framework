@@ -5,6 +5,7 @@ namespace Controllers;
 use Core\Controller;
 use Core\Request;
 use Core\Session;
+use Core\Validator;
 use Repository\CategoryRepository;
 
 class CategoryController extends Controller
@@ -52,7 +53,19 @@ class CategoryController extends Controller
 
     public function save(Request $request)
     {
-        $this->categoryRepository->create($request->all());
+        try{
+
+            $data = $request->all();
+
+            Validator::getInstance()->validate($data,[
+                'name' => 'string|required',
+            ]);
+
+            $this->categoryRepository->create($request->all());
+        } catch (\Exception $exception) {
+            Session::flash('message', $exception->getMessage());
+        }
+
 
         Request::redirect('/categories');
     }
@@ -60,6 +73,12 @@ class CategoryController extends Controller
     public function update(Request $request, int $id)
     {
         try {
+            $data = $request->all();
+
+            Validator::getInstance()->validate($data, [
+                'name' => 'string',
+            ]);
+
             $this->categoryRepository->update($request->all(), $id);
         } catch (\Exception $exception) {
             Session::flash('message', $exception->getMessage());

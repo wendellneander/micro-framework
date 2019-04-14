@@ -5,6 +5,7 @@ namespace Controllers;
 use Core\Controller;
 use Core\Request;
 use Core\Session;
+use Core\Validator;
 use Repository\StoreRepository;
 
 class StoreController extends Controller
@@ -52,6 +53,13 @@ class StoreController extends Controller
     public function save(Request $request)
     {
         try {
+            $data = $request->all();
+
+            Validator::getInstance()->validate($data,[
+                'name' => 'string|required',
+                'address' => 'string|required',
+            ]);
+
             $this->storeRepository->create($request->all());
         } catch (\Exception $exception) {
             Session::flash('message', $exception->getMessage());
@@ -63,6 +71,13 @@ class StoreController extends Controller
     public function update(Request $request, int $id)
     {
         try {
+            $data = $request->all();
+
+            Validator::getInstance()->validate($data, [
+                'name' => 'string|required',
+                'address' => 'string|required',
+            ]);
+
             $this->storeRepository->update($request->all(), $id);
         } catch (\Exception $exception) {
             Session::flash('message', $exception->getMessage());

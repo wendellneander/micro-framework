@@ -9,6 +9,7 @@ class Validator
     const RULE_NUMERIC = 'numeric';
     const RULE_STRING = 'string';
     const RULE_BOOLEAN = 'boolean';
+    const RULE_REQUIRED = 'required';
 
     /**
      * @var self $instance
@@ -19,7 +20,8 @@ class Validator
         self::RULE_INTEGER,
         self::RULE_NUMERIC,
         self::RULE_STRING,
-        self::RULE_BOOLEAN
+        self::RULE_BOOLEAN,
+        self::RULE_REQUIRED
     ];
 
     /**
@@ -84,20 +86,24 @@ class Validator
     {
         switch ($rule) {
             case self::RULE_BOOLEAN :
-                if(!is_bool($value)){
+                if($value && !is_bool($value)){
                     throw new \Exception($attribute . ' must be a boolean');
                 }
             case self::RULE_INTEGER :
-                if(!is_integer($value)){
+                if($value && !is_integer($value)){
                     throw new \Exception($attribute . ' must be a integer');
                 }
             case self::RULE_NUMERIC :
-                if(!is_numeric($value)){
+                if($value && !is_numeric($value)){
                     throw new \Exception($attribute . ' must be a numeric');
                 }
             case self::RULE_STRING :
-                if(!is_string($value)){
+                if($value && !is_string($value)){
                     throw new \Exception($attribute . ' must be a string');
+                }
+            case self::RULE_REQUIRED :
+                if(!$value){
+                    throw new \Exception($attribute . ' is required');
                 }
         }
     }
