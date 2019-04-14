@@ -9,7 +9,8 @@ $database->addConfig('db', [
     'username' => getenv('DB_USER'),
     'password' => getenv('DB_PASSWORD'),
     'charset' => getenv('DB_CHARSET'),
-    'collation' => getenv('DB_COLLATION')
+    'collation' => getenv('DB_COLLATION'),
+    'port'=> getenv('DB_PORT'),
 ]);
 
 $database->setCurrentConfig('db');

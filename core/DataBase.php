@@ -73,6 +73,11 @@ class DataBase
     protected $capsule;
 
     /**
+     * @var integer $port
+     */
+    private $port;
+
+    /**
      * @return DataBase
      */
     public static function getInstance()
@@ -153,7 +158,8 @@ class DataBase
             'password',
             'charset',
             'collation',
-            'prefix'
+            'prefix',
+            'port'
         ];
     }
 
@@ -172,6 +178,7 @@ class DataBase
             'password' => $this->password,
             'charset' => $this->charset,
             'collation' => $this->collation,
+            'port' => $this->port,
             'prefix' => ''
         ]);
 
