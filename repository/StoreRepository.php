@@ -34,7 +34,7 @@ class StoreRepository extends Repository
         return $query->get();
     }
 
-    public function searchByProductNameAndCategory($name, $category, $with = [], $onlyWithProducts = false)
+    public function searchByProductNameAndCategory($name, $category, $onlyWithProducts = false)
     {
         $query = $this->model->query()->with([
             'products' => function (HasMany $builder) use ($category, $name) {
@@ -45,12 +45,10 @@ class StoreRepository extends Repository
                 if($category){
                     $builder->where('category_id', $category);
                 }
-            }
+            },
+            'products.category'
         ]);
 
-        if($with){
-            $query->with($with);
-        }
 
         if ($onlyWithProducts) {
             $query->whereHas('products', function(Builder $builder) use ($name, $category) {

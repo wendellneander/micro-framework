@@ -56,7 +56,7 @@ class ProductController extends Controller
 
         $categories = $this->categoryRepository->all();
 
-        $stores = $this->storeRepository->searchByProductNameAndCategory($search, $categoryId, ['products.category'], true);
+        $stores = $this->storeRepository->searchByProductNameAndCategory($search, $categoryId, true);
 
         $this->view('product/index', [
             'stores' => $stores,
