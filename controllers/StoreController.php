@@ -70,6 +70,8 @@ class StoreController extends Controller
             Session::flash('message', $exception->getMessage());
 
             Request::redirect('/new');
+
+            return;
         }
 
         Request::redirect('/');

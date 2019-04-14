@@ -70,6 +70,8 @@ class CategoryController extends Controller
             Session::flash('message', $exception->getMessage());
 
             Request::redirect('/category/new');
+
+            return;
         }
 
         Request::redirect('/categories');

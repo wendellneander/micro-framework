@@ -142,6 +142,8 @@ class ProductController extends Controller
             Session::flash('message', $exception->getMessage());
 
             Request::redirect('/product/new');
+
+            return;
         }
 
         Request::redirect('/products');
