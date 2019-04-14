@@ -47,13 +47,12 @@ class Validator
 
         foreach ($data as $attribute => $value) {
             if (!array_key_exists($attribute, $rules)) {
-                exit($attribute);
                 continue;
             }
 
-            $rules = explode('|', $rules[$attribute]);
+            $arrayRules = explode('|', $rules[$attribute]);
 
-            foreach ($rules as $rule) {
+            foreach ($arrayRules as $rule) {
                 $this->applyRule($rule, $attribute, $value);
             }
         }
