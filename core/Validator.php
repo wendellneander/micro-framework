@@ -41,9 +41,9 @@ class Validator
      * @param $rules
      * @throws \Exception
      */
-    public function validate(array $data, array $rules)
+    public static function validate(array $data, array $rules)
     {
-        $this->checkRules($rules);
+        self::getInstance()->checkRules($rules);
 
         foreach ($data as $attribute => $value) {
             if (!array_key_exists($attribute, $rules)) {
@@ -53,7 +53,7 @@ class Validator
             $arrayRules = explode('|', $rules[$attribute]);
 
             foreach ($arrayRules as $rule) {
-                $this->applyRule($rule, $attribute, $value);
+                self::getInstance()->applyRule($rule, $attribute, $value);
             }
         }
     }

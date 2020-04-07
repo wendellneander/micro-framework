@@ -61,7 +61,7 @@ class CategoryController extends Controller
         try {
             $data = $request->all();
 
-            Validator::getInstance()->validate($data, [
+            Validator::validate($data, [
                 'name' => 'string|required',
             ]);
 
@@ -82,7 +82,7 @@ class CategoryController extends Controller
         try {
             $data = $request->all();
 
-            Validator::getInstance()->validate($data, [
+            Validator::validate($data, [
                 'name' => 'string',
             ]);
 

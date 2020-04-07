@@ -15,7 +15,7 @@ class MathController extends Controller
     public function calculateScore($score1, $score2, $score3, $score4)
     {
         try {
-            Validator::getInstance()->validate([
+            Validator::validate([
                 'score1' => $score1,
                 'score2' => $score2,
                 'score3' => $score3,
@@ -46,7 +46,7 @@ class MathController extends Controller
     public function calculateTemperature($celsius)
     {
         try {
-            Validator::getInstance()->validate([
+            Validator::validate([
                 'celsius' => $celsius
             ], [
                 'celsius' => 'integer'
@@ -66,7 +66,7 @@ class MathController extends Controller
     public function calculateAge($years, $months, $days)
     {
         try {
-            Validator::getInstance()->validate([
+            Validator::validate([
                 'years' => $years,
                 'months' => $months,
                 'days' => $days,

@@ -12,6 +12,6 @@ abstract class Controller
 {
     protected function view($path, array $params = [])
     {
-        Blade::getInstance()->view($path, $params);
+        Blade::view($path, $params);
     }
 }

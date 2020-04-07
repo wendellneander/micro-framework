@@ -47,7 +47,7 @@ class Session
         return $_SESSION['flash'][$key]['value'];
     }
 
-    public function clearFlashes()
+    public static function clearFlashes()
     {
         if (!isset($_SESSION['flash'])) {
             return null;

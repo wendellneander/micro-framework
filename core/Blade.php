@@ -50,9 +50,9 @@ class Blade
      * @param $path
      * @param null $data
      */
-    public function view($path, $data = null)
+    public static function view($path, $data = null)
     {
-        $view = $this->engine->render($path, $data);
+        $view = self::getInstance()->engine->render($path, $data);
 
         echo $view;
     }

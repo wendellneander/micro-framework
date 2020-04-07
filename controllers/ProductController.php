@@ -130,7 +130,7 @@ class ProductController extends Controller
         try {
             $data = $request->all();
 
-            Validator::getInstance()->validate($data, [
+            Validator::validate($data, [
                 'name' => 'string|required',
                 'price' => 'numeric|required',
                 'store_id' => 'integer|required',
@@ -154,7 +154,7 @@ class ProductController extends Controller
         try {
             $data = $request->all();
 
-            Validator::getInstance()->validate($data, [
+            Validator::validate($data, [
                 'name' => 'string|required',
                 'price' => 'numeric|required',
                 'store_id' => 'integer|required',

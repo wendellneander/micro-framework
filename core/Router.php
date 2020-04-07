@@ -56,19 +56,19 @@ class Router
     /**
      * @throws \ReflectionException
      */
-    public function run()
+    public static function run()
     {
-        $this->params = [];
+        self::getInstance()->params = [];
 
-        $this->url = $this->getUrl();
+        self::getInstance()->url = self::getInstance()->getUrl();
 
-        $this->clearFlashSession();
+        self::getInstance()->clearFlashSession();
 
-        $this->setRoutes();
+        self::getInstance()->setRoutes();
 
-        $this->getRoute();
+        self::getInstance()->getRoute();
 
-        $this->setController();
+        self::getInstance()->setController();
     }
 
     public function route($path, $controller)
@@ -179,7 +179,7 @@ class Router
 
     private function clearFlashSession()
     {
-        Session::getInstance()->clearFlashes();
+        Session::clearFlashes();
     }
 
 }

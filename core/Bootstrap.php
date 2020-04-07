@@ -24,13 +24,13 @@ class Bootstrap
     /**
      * @throws \ReflectionException
      */
-    public function start()
+    public static function start()
     {
-        $this->database();
+        self::getInstance()->database();
 
-        $this->templateEngine();
+        self::getInstance()->templateEngine();
 
-        $this->router();
+        self::getInstance()->router();
     }
 
     /**

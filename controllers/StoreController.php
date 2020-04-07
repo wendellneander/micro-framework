@@ -60,7 +60,7 @@ class StoreController extends Controller
         try {
             $data = $request->all();
 
-            Validator::getInstance()->validate($data, [
+            Validator::validate($data, [
                 'name' => 'string|required',
                 'address' => 'string|required',
             ]);
@@ -82,7 +82,7 @@ class StoreController extends Controller
         try {
             $data = $request->all();
 
-            Validator::getInstance()->validate($data, [
+            Validator::validate($data, [
                 'name' => 'string|required',
                 'address' => 'string|required',
             ]);
