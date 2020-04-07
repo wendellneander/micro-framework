@@ -38,12 +38,12 @@ class Bootstrap
      */
     private function router()
     {
-        Router::getInstance()->run();
+        Router::run();
     }
 
     private function database()
     {
-        DataBase::getInstance()->run();
+        DataBase::run();
     }
 
     private function templateEngine()

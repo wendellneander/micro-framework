@@ -71,11 +71,11 @@ class Router
         self::getInstance()->setController();
     }
 
-    public function route($path, $controller)
+    public static function route($path, $controller)
     {
-        $this->routes[] = [$path, $controller];
+        self::getInstance()->routes[] = [$path, $controller];
 
-        return $this;
+        return self::getInstance();
     }
 
     private function setRoutes()

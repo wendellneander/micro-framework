@@ -112,9 +112,9 @@ class DataBase
         self::$instance->capsule->getConnection()->rollBack();
     }
 
-    public function run()
+    public static function run()
     {
-        $this->eloquent();
+        self::getInstance()->eloquent();
     }
 
     /**

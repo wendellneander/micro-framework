@@ -1,30 +1,30 @@
 <?php
 
-$router = \Core\Router::getInstance();
+use Core\Router;
 
-$router->route('/', 'StoreController@index');
-$router->route('/new', 'StoreController@create');
-$router->route('/save', 'StoreController@save');
-$router->route('/edit/{id}', 'StoreController@edit');
-$router->route('/update/{id}', 'StoreController@update');
-$router->route('/delete/{id}', 'StoreController@delete');
+Router::route('/', 'StoreController@index');
+Router::route('/new', 'StoreController@create');
+Router::route('/save', 'StoreController@save');
+Router::route('/edit/{id}', 'StoreController@edit');
+Router::route('/update/{id}', 'StoreController@update');
+Router::route('/delete/{id}', 'StoreController@delete');
 
-$router->route('/products', 'ProductController@index');
-$router->route('/product/new', 'ProductController@create');
-$router->route('/product/save', 'ProductController@save');
-$router->route('/product/edit/{id}', 'ProductController@edit');
-$router->route('/product/update/{id}', 'ProductController@update');
-$router->route('/product/delete/{id}', 'ProductController@delete');
-$router->route('/product/import', 'ProductController@import');
-$router->route('/products/{store}/{category}', 'ProductController@productsByStoreAndCategory');
+Router::route('/products', 'ProductController@index');
+Router::route('/product/new', 'ProductController@create');
+Router::route('/product/save', 'ProductController@save');
+Router::route('/product/edit/{id}', 'ProductController@edit');
+Router::route('/product/update/{id}', 'ProductController@update');
+Router::route('/product/delete/{id}', 'ProductController@delete');
+Router::route('/product/import', 'ProductController@import');
+Router::route('/products/{store}/{category}', 'ProductController@productsByStoreAndCategory');
 
-$router->route('/categories', 'CategoryController@index');
-$router->route('/category/new', 'CategoryController@create');
-$router->route('/category/save', 'CategoryController@save');
-$router->route('/category/edit/{id}', 'CategoryController@edit');
-$router->route('/category/update/{id}', 'CategoryController@update');
-$router->route('/category/delete/{id}', 'CategoryController@delete');
-$router->route('/category/delete/{id}', 'CategoryController@delete');
-$router->route('/calcula-notas/{nota1}/{nota2}/{nota3}/{nota4}', 'MathController@calculateScore');
-$router->route('/calcula-temperatura/{celsius}', 'MathController@calculateTemperature');
-$router->route('/calcula-idade/{years}/{months}/{days}', 'MathController@calculateAge');
+Router::route('/categories', 'CategoryController@index');
+Router::route('/category/new', 'CategoryController@create');
+Router::route('/category/save', 'CategoryController@save');
+Router::route('/category/edit/{id}', 'CategoryController@edit');
+Router::route('/category/update/{id}', 'CategoryController@update');
+Router::route('/category/delete/{id}', 'CategoryController@delete');
+Router::route('/category/delete/{id}', 'CategoryController@delete');
+Router::route('/calcula-notas/{nota1}/{nota2}/{nota3}/{nota4}', 'MathController@calculateScore');
+Router::route('/calcula-temperatura/{celsius}', 'MathController@calculateTemperature');
+Router::route('/calcula-idade/{years}/{months}/{days}', 'MathController@calculateAge');
